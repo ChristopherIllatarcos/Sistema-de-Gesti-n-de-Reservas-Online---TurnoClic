@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Meta tags dinámicos -->
+    <title>{% block title %}{{ perfil.nombre_negocio }} - Reserva tu cita online{% endblock %}</title>
+    <meta name="description" content="{% block description %}Reserva tu cita en {{ perfil.nombre_negocio }}. Agenda online de {{ perfil.get_rubro_display }}.{% endblock %}">
+    <meta name="keywords" content="reservas, agenda, cita online, {{ perfil.nombre_negocio }}">
+    
+    <!-- Open Graph (Facebook/WhatsApp) -->
+    <meta property="og:title" content="{% block og_title %}{{ perfil.nombre_negocio }} - Reservas Online{% endblock %}">
+    <meta property="og:description" content="Reserva tu cita en {{ perfil.nombre_negocio }}. Agenda online de {{ perfil.get_rubro_display }}.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ perfil.nombre_negocio }} - Reservas Online">
+    <meta name="twitter:description" content="Reserva tu cita en {{ perfil.nombre_negocio }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'reservas/css/agendar.css' %}?v=4.8" />
+</head>
+
+<body data-rubro="{{ perfil.rubro }}">
+    <input type="hidden" id="csrf-token" value="{{ csrf_token }}" />
+
+    <div class="booking-card">
+        <!-- HEADER -->
+        <div class="header">
+            {% if perfil.logo %}
+                <img src="{{ perfil.logo.url }}" alt="Logo de {{ perfil.nombre_negocio }}" />
+            {% endif %}
+            <h2>{{ perfil.nombre_negocio }}</h2>
+
+            {% if perfil.rubro == 'deporte' %}
+                <p id="sub-title">⚽ Reserva tu cancha y vive la emoción del deporte</p>
+            {% elif perfil.rubro == 'belleza' %}
+                <p id="sub-title">✂️ Tu estilo, nuestra pasión. Agenda tu cita</p>
+            {% elif perfil.rubro == 'salud' %}
+                <p id="sub-title">🏥 Tu bienestar es lo más importante. Agenda ahora</p>
+            {% elif perfil.rubro == 'educacion' %}
+                <p id="sub-title">📚 Aprende con los mejores. Reserva tu clase</p>
+            {% elif perfil.rubro == 'spa' %}
+                <p id="sub-title">💆 Relájate y desconéctate. Reserva tu momento</p>
+            {% else %}
+                <p id="sub-title">📅 Reserva tu cita de forma rápida y sencilla</p>
+            {% endif %}
+        </div>
+
+        <!-- Iconos de redes sociales -->
+        <div class="social-icons">
+            <a href="{{ perfil.get_instagram_url }}" class="social ig" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+            <a href="{{ perfil.get_whatsapp_url }}" class="social wp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+
+        <div class="form-container">
+            <!-- ================= PASO 1 ================= -->
+            <div id="paso-1" class="paso activo">
+                <span class="label">SERVICIO</span>
+                <select id="service-select" class="select-vortex">
+                    <option value="">Seleccione..</option>
+                    {% for s in servicios %}
+                        <option value="{{ s.id }}" data-precio="{{ s.precio }}" data-tiempo="{{ s.duracion_minutos }}" data-descripcion="{{ s.descripcion }}">{{ s.nombre }}</option>
+                    {% endfor %}
+                </select>
+
+                <span class="label">
+                    {% if perfil.rubro == 'deporte' %}
+                        CANCHA / ESPACIO
+                    {% elif perfil.rubro == 'belleza' %}
+                        PROFESIONAL
+                    {% elif perfil.rubro == 'educacion' %}
+                        INSTRUCTOR
+                    {% elif perfil.rubro == 'salud' %}
+                        ESPECIALISTA
+                    {% else %}
+                        PROFESIONAL
+                    {% endif %}
+                </span>
+                <select id="pro-select" class="select-vortex">
+                    <option value="">Seleccione..</option>
+                    {% for p in profesionales %}
+                        <option value="{{ p.id }}">{{ p.nombre }}</option>
+                    {% endfor %}
+                </select>
+
+                <div id="info-reserva" class="info-box" style="display:none;">
+                    <p><b>Precio:</b> $<span id="display-precio"></span></p>
+                    <p><b>Tiempo:</b> <span id="display-tiempo"></span> min</p>
+                    <p><b>Descripción:</b> <span id="display-descripcion"></span></p>
+                </div>
+
+                <button type="button" onclick="irAlPaso2()" class="btn-main">SIGUIENTE ❯</button>
+            </div>
+
+            <!-- ================= PASO 2 ================= -->
+            <div id="paso-2" class="paso">
+                <div class="step-header">
+                    <h3>SELECCIONA FECHA Y HORA</h3>
+                    <p class="agenda-info">
+                        {% if perfil.rubro == 'deporte' %}
+                            CANCHA: <strong id="nombre-profesional"></strong>
+                        {% elif perfil.rubro == 'belleza' %}
+                            PROFESIONAL: <strong id="nombre-profesional"></strong>
+                        {% elif perfil.rubro == 'educacion' %}
+                            INSTRUCTOR: <strong id="nombre-profesional"></strong>
+                        {% elif perfil.rubro == 'salud' %}
+                            ESPECIALISTA: <strong id="nombre-profesional"></strong>
+                        {% else %}
+                            PROFESIONAL: <strong id="nombre-profesional"></strong>
+                        {% endif %}
+                    </p>
+                    <p class="servicio-info">▷ <span id="nombre-servicio"></span></p>
+                </div>
+
+                <div class="calendar-nav">
+                    <button type="button" onclick="cambiarMes(-1)">❮</button>
+                    <span id="month-name"></span>
+                    <button type="button" onclick="cambiarMes(1)">❯</button>
+                </div>
+
+                <div class="calendar-grid" id="calendar-body"></div>
+
+                <div id="container-horas" style="display:none;">
+                    <p id="fecha-seleccionada-texto"></p>
+                    <div id="horas-grid"></div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" onclick="volverPaso1()" class="btn-main btn-back">❮ ATRÁS</button>
+                    <button type="button" onclick="irAlPaso3()" class="btn-main">SIGUIENTE ❯</button>
+                </div>
+            </div>
+
+            <!-- ================= PASO 3 ================= -->
+            <div id="paso-3" class="paso">
+                <div class="step-header">
+                    <h3>FORMULARIO DE RESERVA</h3>
+                    <p>INGRESA TU RUT PARA CONTINUAR</p>
+                </div>
+
+                <div class="resumen-box">
+                    <span class="label">TIPO DE DOCUMENTO</span>
+                    <select id="tipo-documento" class="select-vortex">
+                        <option value="rut">RUT (Chileno)</option>
+                        <option value="pasaporte">Pasaporte</option>
+                    </select>
+
+                    <span class="label">INGRESE SU RUT</span>
+                    <input type="text" id="rut-cliente" class="input-vortex" placeholder="Ej: 12.345.678-9" />
+                </div>
+
+                <div class="button-group">
+                    <button type="button" onclick="volverPaso2()" class="btn-main btn-back">❮ ATRÁS</button>
+                    <button type="button" onclick="irAlPaso4()" class="btn-main">SIGUIENTE ❯</button>
+                </div>
+            </div>
+
+            <!-- ================= PASO 4 ================= -->
+            <div id="paso-4" class="paso">
+                <div class="step-header">
+                    <h3>CONFIRMAR RESERVA</h3>
+                    <p>REVISA LOS DATOS Y CONFIRMA TU CITA</p>
+                </div>
+
+                <div class="resumen-box">
+                    <p class="resumen-info">
+                        <b>Fecha:</b> <span id="resumen-fecha"></span><br />
+                        <b>Hora:</b> <span id="resumen-hora"></span><br />
+                        <b>
+                            {% if perfil.rubro == 'deporte' %}
+                                Cancha:
+                            {% elif perfil.rubro == 'belleza' %}
+                                Profesional:
+                            {% elif perfil.rubro == 'educacion' %}
+                                Instructor:
+                            {% elif perfil.rubro == 'salud' %}
+                                Especialista:
+                            {% else %}
+                                Profesional:
+                            {% endif %}
+                        </b>
+                        <span id="resumen-profesional"></span>
+                    </p>
+                    <hr />
+                    <span class="label">NOMBRES</span>
+                    <input type="text" id="nombres-cliente" class="input-vortex" />
+                    <span class="label">APELLIDO PATERNO</span>
+                    <input type="text" id="apellido-paterno" class="input-vortex" />
+                    <span class="label">APELLIDO MATERNO</span>
+                    <input type="text" id="apellido-materno" class="input-vortex" />
+                    <span class="label">TELÉFONO</span>
+                    <input type="text" id="telefono-cliente" class="input-vortex" />
+                    <span class="label">CORREO</span>
+                    <input type="email" id="correo-cliente" class="input-vortex" />
+                </div>
+
+                <div class="button-group">
+                    <button type="button" onclick="volverPaso3()" class="btn-main btn-back">❮ ATRÁS</button>
+                    <button type="button" onclick="confirmarReserva()" class="btn-main">CONFIRMAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'reservas/js/calendario.js' %}?V=1.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

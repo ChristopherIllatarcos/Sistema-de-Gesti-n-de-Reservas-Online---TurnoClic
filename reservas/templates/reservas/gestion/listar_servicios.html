@@ -1,0 +1,241 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/servicios.css' %}?v=2.1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+  <div class="gestion-container">
+    <div class="header-gestion">
+      <div class="header-title">
+        <i class="fas fa-boxes"></i> <!-- Icono genérico -->
+        <div>
+          <h2>Mis Servicios</h2>
+          <p>Gestiona los servicios que ofrece tu negocio</p>
+        </div>
+      </div>
+      <div class="header-buttons">
+        <a href="{% url 'dashboard' %}" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver</a>
+        <a href="{% url 'crear_servicio' %}" class="btn-agregar"><i class="fas fa-plus-circle"></i> Nuevo Servicio</a>
+      </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="stats-cards">
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          {% if perfil.rubro == 'deporte' %}
+            <i class="fas fa-futbol"></i>
+          {% elif perfil.rubro == 'belleza' %}
+            <i class="fas fa-cut"></i>
+          {% else %}
+            <i class="fas fa-boxes"></i>
+          {% endif %}
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">{{ servicios|length }}</span>
+          <span class="stat-label">Total Servicios</span>
+        </div>
+      </div>
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          {% if perfil.rubro == 'deporte' %}
+            <i class="fas fa-trophy"></i>
+          {% elif perfil.rubro == 'belleza' %}
+            <i class="fas fa-star"></i>
+          {% else %}
+            <i class="fas fa-tags"></i>
+          {% endif %}
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">
+            {% if servicios %}
+              ${{ servicios.0.precio|add:0 }}
+            {% else %}
+              0
+            {% endif %}
+          </span>
+          <span class="stat-label">Precio promedio</span>
+        </div>
+      </div>
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          {% if perfil.rubro == 'deporte' %}
+            <i class="fas fa-stopwatch"></i>
+          {% else %}
+            <i class="fas fa-hourglass-half"></i>
+          {% endif %}
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">
+            {% for s in servicios %}
+              {% if forloop.first %}{{ s.duracion_minutos }}{% endif %}
+            {% endfor %}
+          </span>
+          <span class="stat-label">Duración promedio</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla mejorada -->
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>
+              <i class="fas fa-tag"></i> Servicio
+            </th>
+            <th>
+              <i class="fas fa-dollar-sign"></i> Precio
+            </th>
+            <th>
+              <i class="fas fa-clock"></i> Duración
+            </th>
+            <th>
+              <i class="fas fa-align-left"></i> Descripción
+            </th>
+            <th>
+              <i class="fas fa-cog"></i> Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in servicios %}
+            <tr>
+              <td class="servicio-cell">
+                <div class="servicio-icon">
+                  {% if perfil.rubro == 'deporte' %}
+                    <i class="fas fa-futbol"></i>
+                  {% elif perfil.rubro == 'belleza' %}
+                    <i class="fas fa-cut"></i>
+                  {% elif perfil.rubro == 'salud' %}
+                    <i class="fas fa-heartbeat"></i>
+                  {% elif perfil.rubro == 'educacion' %}
+                    <i class="fas fa-chalkboard-user"></i>
+                  {% elif perfil.rubro == 'comida' %}
+                    <i class="fas fa-utensils"></i>
+                  {% elif perfil.rubro == 'eventos' %}
+                    <i class="fas fa-calendar-star"></i>
+                  {% elif perfil.rubro == 'spa' %}
+                    <i class="fas fa-spa"></i>
+                  {% else %}
+                    <i class="fas fa-cube"></i>
+                  {% endif %}
+                </div>
+                <div class="servicio-info">
+                  <strong>{{ s.nombre }}</strong>
+                  <small>ID: S-{{ s.id }}</small>
+                </div>
+              </td>
+              <td>
+                <span class="precio-tag"><i class="fas fa-dollar-sign"></i> {{ s.precio|floatformat:0 }}</span>
+              </td>
+              <td>
+                <span class="duracion-tag"><i class="fas fa-hourglass-half"></i> {{ s.duracion_minutos }} min</span>
+              </td>
+              <td>
+                <span class="descripcion-text">{{ s.descripcion|default:'Sin descripción'|truncatechars:40 }}</span>
+              </td>
+              <td>
+                <div class="acciones-group">
+                  <a href="{% url 'editar_servicio' s.id %}" class="btn-icon editar" title="Editar"><i class="fas fa-pencil-alt"></i></a>
+                  <a href="#" class="btn-icon eliminar" title="Eliminar" onclick="eliminarServicio({{ s.id }}, '{{ s.nombre|escapejs }}'); return false;"><i class="fas fa-trash-alt"></i></a>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="empty-message">
+                <div class="empty-state">
+                  <i class="fas fa-box-open"></i>
+                  <h4>No hay servicios creados</h4>
+                  <p>Comienza agregando tu primer servicio</p>
+                  <a href="{% url 'crear_servicio' %}" class="btn-empty-action"><i class="fas fa-plus"></i> Agregar Servicio</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function eliminarServicio(id, nombre) {
+      Swal.fire({
+        title: '¿Eliminar servicio?',
+        text: `¿Estás seguro de que deseas eliminar "${nombre}"?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Eliminando...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading()
+            }
+          })
+    
+          let csrfToken = ''
+          const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]')
+          if (csrfInput) {
+            csrfToken = csrfInput.value
+          } else {
+            const cookieValue = document.cookie.split('; ').find((row) => row.startsWith('csrftoken='))
+            if (cookieValue) {
+              csrfToken = cookieValue.split('=')[1]
+            }
+          }
+    
+          fetch(`/servicios/eliminar/${id}/`, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrfToken,
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Eliminado!',
+                  text: `"${nombre}" ha sido eliminado correctamente`,
+                  confirmButtonColor: '#28a745',
+                  confirmButtonText: 'OK'
+                }).then(() => {
+                  location.reload()
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: data.error || 'No se pudo eliminar',
+                  confirmButtonColor: '#dc3545'
+                })
+              }
+            })
+            .catch((error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo conectar con el servidor',
+                confirmButtonColor: '#dc3545'
+              })
+            })
+        }
+      })
+    }
+  </script>
+{% endblock %}

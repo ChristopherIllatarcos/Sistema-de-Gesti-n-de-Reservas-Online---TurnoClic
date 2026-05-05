@@ -1,0 +1,441 @@
+/* ==================== PANEL DE SERVICIOS PREMIUM ==================== */
+
+.gestion-container {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 30px;
+    margin: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+.header-gestion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-title i {
+    font-size: 36px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-title h2 {
+    font-size: 26px;
+    color: #1a1a2e;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+
+.header-title p {
+    color: #6c757d;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Botones header */
+.header-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-volver {
+    background: #f8f9fa;
+    color: #4361ee;
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.btn-volver:hover {
+    background: #4361ee;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-agregar {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-agregar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+}
+
+/* Tarjetas de estadísticas */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card-mini {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.stat-card-mini:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon i {
+    font-size: 24px;
+    color: white;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-number {
+    display: block;
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1;
+}
+
+.stat-label {
+    display: block;
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* Tabla */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.data-table thead tr {
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.data-table th {
+    padding: 16px 20px;
+    text-align: left;
+    color: #495057;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table th i {
+    margin-right: 8px;
+    color: #4361ee;
+}
+
+.data-table td {
+    padding: 16px 20px;
+    color: #212529;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table tbody tr:hover {
+    background: #fafbff;
+}
+
+/* Celda de servicio */
+.servicio-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.servicio-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.servicio-icon i {
+    font-size: 24px;
+    color: #4361ee;
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    padding: 10px;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+}
+
+/* Diferentes colores según el tipo de servicio (opcional) */
+.servicio-icon i {
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+}
+
+/* Para servicios deportivos - puedes agregar una clase si quieres */
+.servicio-icon.deporte i {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    color: #15803d;
+}
+
+/* Para servicios de belleza */
+.servicio-icon.belleza i {
+    background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+    color: #be185d;
+}
+
+/* Para servicios de salud */
+.servicio-icon.salud i {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #1d4ed8;
+}
+
+
+.servicio-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.servicio-info strong {
+    font-size: 15px;
+    color: #1a1a2e;
+}
+
+.servicio-info small {
+    font-size: 11px;
+    color: #6c757d;
+}
+
+/* Tags */
+.precio-tag {
+    background: #e8f5e9;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2e7d32;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.duracion-tag {
+    background: #e3f2fd;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #1565c0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.descripcion-text {
+    color: #6c757d;
+    font-size: 13px;
+}
+
+/* Grupo de acciones */
+.acciones-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-icon.editar {
+    background: #e9ecef;
+    color: #4361ee;
+}
+
+.btn-icon.editar:hover {
+    background: #4361ee;
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-icon.eliminar {
+    background: #e9ecef;
+    color: #dc3545;
+}
+
+.btn-icon.eliminar:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Estado vacío */
+.empty-message {
+    text-align: center;
+    padding: 60px 20px !important;
+}
+
+.empty-state {
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 64px;
+    color: #dee2e6;
+    margin-bottom: 20px;
+}
+
+.empty-state h4 {
+    font-size: 18px;
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.btn-empty-action {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-empty-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+}
+
+/* SweetAlert2 estilos personalizados */
+.swal2-form {
+    text-align: left;
+}
+
+.swal2-field {
+    margin-bottom: 15px;
+}
+
+.swal2-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.swal2-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.swal2-input,
+.swal2-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.swal2-input:focus,
+.swal2-textarea:focus {
+    outline: none;
+    border-color: #4361ee;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gestion-container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .header-gestion {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .header-title {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 12px 15px;
+    }
+    
+    .swal2-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}

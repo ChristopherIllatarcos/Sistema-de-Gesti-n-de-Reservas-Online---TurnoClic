@@ -1,0 +1,503 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/dashboard.css' %}?v=1.8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* Botón Volver arriba */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ef233c, #c1121f);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(239, 35, 60, 0.3);
+    }
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(239, 35, 60, 0.4);
+    }
+    .back-to-top i {
+      font-size: 22px;
+    }
+    
+    /* Efecto de apagado Windows 11 */
+    .shutdown-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+    }
+    .shutdown-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .shutdown-content {
+      text-align: center;
+      animation: fadeInScale 0.3s ease;
+    }
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .shutdown-spinner {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 25px;
+      position: relative;
+    }
+    .shutdown-spinner .dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #0078d4;
+      border-radius: 50%;
+      opacity: 0;
+    }
+    .shutdown-spinner .dot:nth-child(1) {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: spinDot 1.2s ease-in-out infinite;
+    }
+    .shutdown-spinner .dot:nth-child(2) {
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      animation: spinDot 1.2s ease-in-out 0.3s infinite;
+    }
+    .shutdown-spinner .dot:nth-child(3) {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: spinDot 1.2s ease-in-out 0.6s infinite;
+    }
+    .shutdown-spinner .dot:nth-child(4) {
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      animation: spinDot 1.2s ease-in-out 0.9s infinite;
+    }
+    @keyframes spinDot {
+      0%,
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1);
+        background: #fff;
+      }
+    }
+    .shutdown-text {
+      color: white;
+      font-family: 'Segoe UI', 'Poppins', sans-serif;
+    }
+    .shutdown-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .shutdown-subtitle {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+    .shutdown-progress {
+      width: 250px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    .shutdown-progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #0078d4, #00a6ff);
+      border-radius: 3px;
+      animation: progressBar 2s ease forwards;
+    }
+    @keyframes progressBar {
+      0% {
+        width: 0%;
+      }
+      30% {
+        width: 30%;
+      }
+      60% {
+        width: 70%;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+    
+    /* Botones de exportación */
+    .btn-exportar-excel:hover {
+      background: #218838 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+    .btn-exportar-pdf:hover {
+      background: #c82333 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+    .btn-recordatorio:hover {
+      background: #3a56d4 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <ul class="sidebar-menu">
+        <li>
+          <a href="{% url 'dashboard' %}" class="active" style="margin: 10px;">📊 Resumen</a>
+        </li>
+        <li>
+          <a href="{% url 'lista_servicios' %}"><i class="fas fa-bell" style="margin-right: 10px;"></i> Servicios</a>
+        </li>
+        <li>
+          <a href="{% url 'lista_profesionales' %}"><i class="fas fa-user" style="margin-right: 10px;"></i> Profesionales</a>
+        </li>
+        <hr style="border: 0.5px solid #333; margin-right: 10px 0;" />
+        <li>
+          <a href="{% url 'mis_citas' %}"><i class="fas fa-calendar-alt" style="margin-right: 10px;"></i> Mis Citas</a>
+        </li>
+        <li>
+          <a href="{% url 'lista_horarios' %}"><i class="fas fa-clock" style="margin-right: 10px;"></i> Bloques de Horario</a>
+        </li>
+        <li>
+          <a href="{% url 'perfil' %}"><i class="fas fa-user-circle" style="margin-right: 10px;"></i> Mi Perfil</a>
+        </li>
+        <li>
+          <a href="{% url 'editar_negocio' %}"><i class="fas fa-store" style="margin-right: 10px;"></i> Mi Negocio</a>
+        </li>
+        <li>
+          <a href="{% url 'panel_graficos' %}"><i class="fas fa-chart-pie" style="margin-right: 10px;"></i> Gráficos</a>
+        </li>
+        <li>
+          <a href="{% url 'lista_resenas' %}"><i class="fas fa-star" style="margin-right: 10px;"></i> Reseñas</a>
+        </li>
+        <hr style="border: 0.5px solid #333; margin: 20px 0;" />
+        <li>
+          <a href="#" onclick="cerrarSesionConEfecto(event);"><i class="fas fa-sign-out-alt" style="margin: 10px;"></i> Salir al Sitio</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <!-- HEADER -->
+      <div class="welcome-header" style="display: flex; align-items: center; gap: 20px;">
+        {% if perfil.logo %}
+          <div class="logo-container">
+            <img src="{{ perfil.logo.url }}" alt="Logo {{ nombre_negocio }}" style="width: 70px; height: 70px; border-radius: 12px; object-fit: cover; border: 2px solid #ef233c;" />
+          </div>
+        {% endif %}
+        <div>
+          <h1 style="margin: 0;">Hola, {{ username }} 👋</h1>
+          <p style="margin: 5px 0 0 0;">
+            Panel de control de <strong>{{ nombre_negocio }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- AVISO DE DEMO -->
+      {% if perfil.fecha_expiracion and perfil.activo == False %}
+        <div class="demo-warning" style="background: linear-gradient(135deg, #fef3c7, #fffbeb); border-left: 4px solid #f59e0b; border-radius: 12px; padding: 15px 20px; margin: 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-hourglass-half" style="font-size: 24px; color: #f59e0b;"></i>
+            <div>
+              <strong style="color: #92400e;">⚠️ Período Demo Activo</strong>
+              <p style="margin: 0; font-size: 13px; color: #b45309;">
+                Tu período de prueba termina en <strong style="font-size: 18px;">{{ perfil.dias_restantes_demo }}</strong> días
+              </p>
+            </div>
+          </div>
+          <a href="{% url 'planes' %}" style="background: #f59e0b; color: white; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 600;"><i class="fas fa-rocket"></i> Contratar Plan</a>
+        </div>
+      {% elif perfil.fecha_expiracion and perfil.activo and perfil.dias_restantes_demo <= 5 %}
+        <div class="demo-warning" style="background: linear-gradient(135deg, #fee2e2, #fff5f5); border-left: 4px solid #ef233c; border-radius: 12px; padding: 15px 20px; margin: 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-clock" style="font-size: 24px; color: #ef233c;"></i>
+            <div>
+              <strong style="color: #991b1b;">⚠️ Tu demo está por terminar</strong>
+              <p style="margin: 0; font-size: 13px; color: #dc2626;">
+                Te quedan <strong>{{ perfil.dias_restantes_demo }}</strong> días de prueba. ¡Contrata ahora!
+              </p>
+            </div>
+          </div>
+          <a href="{% url 'planes' %}" style="background: #ef233c; color: white; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 600;"><i class="fas fa-gem"></i> Renovar Plan</a>
+        </div>
+      {% endif %}
+
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>📅 Total Reservas</h4><div class="value">{{ total_reservas|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+          <h4>
+            {% if perfil.rubro == 'deporte' %}
+              ⚽ Reservas Hoy
+            {% else %}
+              ✂️ Citas Hoy
+            {% endif %}
+          </h4><div class="value">{{ citas_hoy|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+          <h4><i class="fas fa-clock"></i> Pendientes</h4><div class="value">{{ citas_pendientes|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+          <h4>🎁 Puntos de Clientes</h4>
+          <div class="value">{{ puntos_totales_clientes|default:0 }}</div>
+          <small>Acumulados por tus clientes</small>
+        </div>
+      </div>
+
+      <!-- BOTONES DE EXPORTACIÓN -->
+      <div class="exportar-panel" style="margin: 20px 0; display: flex; justify-content: flex-end; gap: 15px;">
+        <button id="btnLimpiarReservas" class="btn-limpiar" style="background: #dc3545; color: white; padding: 12px 24px; border-radius: 30px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-trash-alt"></i> Limpiar reservas antiguas</button>
+        <a href="{% url 'exportar_reservas_excel' %}" class="btn-exportar-excel" style="background: #28a745; color: white; padding: 12px 24px; border-radius: 30px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-file-excel"></i> Exportar Excel</a>
+        <a href="{% url 'exportar_reporte_pdf' %}" class="btn-exportar-pdf" style="background: #dc3545; color: white; padding: 12px 24px; border-radius: 30px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-file-pdf"></i> Reporte PDF</a>
+        <a href="{% url 'enviar_recordatorios_manual' %}" class="btn-recordatorio" style="background: #4361ee; color: white; padding: 12px 24px; border-radius: 30px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-bell"></i> Recordatorios</a>
+      </div>
+
+      <!-- TABLA -->
+      <div class="data-table-container">
+        <h3>
+          {% if perfil.rubro == 'deporte' %}
+            <i class="fas fa-calendar-alt"></i> Próximas Reservas
+          {% else %}
+            📋 Próximas Actividades
+          {% endif %}
+        </h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Servicio</th>
+              <th>Profesional</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Cliente</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if proximas_reservas %}
+              {% for r in proximas_reservas %}
+                <tr>
+                  <td>{{ r.servicio.nombre }}</td>
+                  <td>
+                    {% if perfil.rubro == 'deporte' %}
+                      <i class="fas fa-futbol"></i>
+                    {% elif perfil.rubro == 'salud' %}
+                      <i class="fas fa-user-md"></i> Dr/a.
+                    {% else %}
+                      <i class="fas fa-user"></i>
+                    {% endif %}{{ r.profesional.nombre }}
+                  </td>
+                  <td>{{ r.fecha|date:'d M, Y' }}</td>
+                  <td>{{ r.hora }}</td>
+                  <td>
+                    <i class="fas fa-user-circle"></i> {{ r.cliente.nombres }} {{ r.cliente.apellido_paterno }}
+                  </td>
+                  <td>
+                    <span class="status-badge">{{ r.estado }}</span>
+                  </td>
+                  <td>
+                    <a href="{% url 'ver_reserva' r.id %}" class="btn-action"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn-delete" onclick="confirmarEliminar(event, '{{ r.id }}', '{% url 'eliminar_reserva' 0 %}')"><i class="fas fa-trash"></i></a>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="7" style="text-align:center;">No hay reservas próximas</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Overlay de apagado Windows 11 -->
+  <div id="shutdownOverlay" class="shutdown-overlay">
+    <div class="shutdown-content">
+      <div class="shutdown-spinner">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="shutdown-text">
+        <div class="shutdown-title">Cerrando sesión</div>
+        <div class="shutdown-subtitle">Hasta pronto</div>
+      </div>
+      <div class="shutdown-progress">
+        <div class="shutdown-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón Volver arriba -->
+  <div id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    // Botón Volver arriba
+    const backToTopBtn = document.getElementById('backToTop')
+    if (backToTopBtn) {
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add('show')
+        } else {
+          backToTopBtn.classList.remove('show')
+        }
+      })
+      backToTopBtn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      })
+    }
+    
+    function confirmarEliminar(event, reservaId, url) {
+      event.preventDefault()
+      Swal.fire({ title: '¿Eliminar reserva?', text: 'Esta acción no se puede deshacer', icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc3545', confirmButtonText: 'Sí, eliminar', cancelButtonText: 'Cancelar' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url.replace('0', reservaId)
+        }
+      })
+    }
+    
+    function cerrarSesionConEfecto(event) {
+      event.preventDefault()
+      document.getElementById('shutdownOverlay').classList.add('active')
+      setTimeout(function () {
+        window.location.href = "{% url 'logout' %}"
+      }, 2000)
+    }
+  </script>
+
+  <script>
+    // Botón limpiar reservas con SweetAlert2
+    const btnLimpiar = document.getElementById('btnLimpiarReservas')
+    if (btnLimpiar) {
+      btnLimpiar.addEventListener('click', function (e) {
+        e.preventDefault()
+    
+        Swal.fire({
+          title: '¿Eliminar reservas pasadas?',
+          html: 'Todas las reservas con fecha <strong>anterior a hoy</strong> serán eliminadas permanentemente.<br>Esta acción no se puede deshacer.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#dc3545',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: 'Eliminando...',
+              text: 'Por favor espera',
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading()
+              }
+            })
+    
+            fetch('{% url "limpiar_reservas_pasadas" %}', {
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.success) {
+                  Swal.fire({
+                    icon: 'success',
+                    title: '¡Eliminadas!',
+                    text: data.message,
+                    confirmButtonColor: '#28a745',
+                    confirmButtonText: 'OK'
+                  }).then(() => {
+                    location.reload()
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message || 'No se pudieron eliminar',
+                    confirmButtonColor: '#dc3545'
+                  })
+                }
+              })
+              .catch((error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error de conexión',
+                  text: 'No se pudo conectar con el servidor',
+                  confirmButtonColor: '#dc3545'
+                })
+              })
+          }
+        })
+      })
+    }
+  </script>
+
+  {% if messages %}
+    {% for message in messages %}
+      <script>
+        Swal.fire({ icon: 'success', title: 'Notificación', text: '{{ message|escapejs }}', confirmButtonColor: '#ef233c', timer: 3000, timerProgressBar: true, showConfirmButton: false })
+      </script>
+    {% endfor %}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      {% block title %}
+        Mis Citas
+      {% endblock %}
+    </title>
+    <!-- Meta tags dinámicos -->
+    <meta name="description"
+      content="{% block description %}
+        Sistema de gestión de reservas para negocios. Agenda citas online de forma fácil y rápida.
+      {% endblock %}" />
+    <meta name="keywords"
+      content="{% block keywords %}
+        reservas online, agenda digital, gestión de citas, turnos web
+      {% endblock %}" />
+    <meta name="author" content="TURNOCLIC" />
+
+    <!-- Open Graph (Facebook/WhatsApp) -->
+    <meta property="og:title"
+      content="{% block og_title %}
+        TURNOCLIC - Sistema de Reservas
+      {% endblock %}" />
+    <meta property="og:description"
+      content="{% block og_description %}
+        Agenda tus citas online de forma fácil y rápida.
+      {% endblock %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:image"
+      content="{% block og_image %}
+        {% static 'reservas/img/og-image.jpg' %}
+      {% endblock %}" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title"
+      content="{% block twitter_title %}
+        TURNOCLIC
+      {% endblock %}" />
+    <meta name="twitter:description"
+      content="{% block twitter_description %}
+        Sistema de gestión de reservas online
+      {% endblock %}" />
+    <link rel="stylesheet" href="{% static 'reservas/css/mis_citas.css' %}" />
+    <link rel="stylesheet" href="{% static 'reservas/css/dark-mode.css' %}?v=1.0" />
+    <script src="{% static 'reservas/js/dark-mode.js' %}?v=1.0"></script>
+    {% block extra_css %}
+    {% endblock %}
+  </head>
+
+  <body>
+    {% block content %}
+    {% endblock %}
+
+    <button id="darkModeToggle" class="theme-toggle-btn" title="Modo oscuro/claro"><i class="fas fa-moon"></i></button>
+    
+    <script src="{% static 'reservas/js/dark-mode.js' %}?v=1.0"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

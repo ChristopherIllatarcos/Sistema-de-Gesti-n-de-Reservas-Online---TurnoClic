@@ -1,0 +1,81 @@
+/* Contenedor Principal */
+.data-table-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #ef233c; /* La línea roja pro */
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column; /* Apila verticalmente label e input */
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+/* Etiquetas */
+.form-label {
+    color: #2b2d42;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Entradas de texto */
+.form-control {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #f0f2f5;
+    border-radius: 12px;
+    background-color: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Evita que se salga del contenedor */
+}
+
+.form-control:focus {
+    border-color: #ef233c;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(239, 35, 60, 0.1);
+}
+
+/* Fila con dos columnas (Teléfono y Dirección) */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* Botón Final */
+.btn-vortex {
+    background: #ef233c;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.btn-vortex:hover {
+    background: #d90429;
+}
+
+.btn-vortex:active {
+    transform: translateY(0);
+}
+
+textarea.form-control {
+    resize: none; /* Evita que el usuario lo deforme */
+}

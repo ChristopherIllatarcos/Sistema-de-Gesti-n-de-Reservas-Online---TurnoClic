@@ -1,0 +1,333 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/profesionales.css' %}?v=1.5" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+  <div class="gestion-container">
+    <div class="header-gestion">
+      <div class="header-title">
+        {% if perfil.rubro == 'deporte' %}
+          <i class="fas fa-futbol"></i>
+        {% elif perfil.rubro == 'belleza' %}
+          <i class="fas fa-cut"></i>
+        {% elif perfil.rubro == 'salud' %}
+          <i class="fas fa-user-md"></i>
+        {% elif perfil.rubro == 'educacion' %}
+          <i class="fas fa-chalkboard-user"></i>
+        {% else %}
+          <i class="fas fa-building"></i>
+        {% endif %}
+        <div>
+          <h2>
+            {% if perfil.rubro == 'deporte' %}
+              Instalaciones / Canchas
+            {% elif perfil.rubro == 'belleza' %}
+              Profesionales
+            {% elif perfil.rubro == 'salud' %}
+              Especialistas
+            {% elif perfil.rubro == 'educacion' %}
+              Instructores
+            {% else %}
+              Recursos
+            {% endif %}
+          </h2>
+          <p>
+            {% if perfil.rubro == 'deporte' %}
+              Gestiona las canchas y espacios deportivos de tu negocio
+            {% elif perfil.rubro == 'belleza' %}
+              Gestiona el equipo de trabajo de tu negocio
+            {% elif perfil.rubro == 'salud' %}
+              Gestiona los especialistas de tu centro de salud
+            {% elif perfil.rubro == 'educacion' %}
+              Gestiona los instructores de tus clases
+            {% else %}
+              Gestiona los recursos de tu negocio
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="header-buttons">
+        <a href="{% url 'dashboard' %}" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver</a>
+        <a href="{% url 'crear_profesional' %}" class="btn-agregar">
+          <i class="fas fa-plus-circle"></i>
+          {% if perfil.rubro == 'deporte' %}
+            Nueva Instalación
+          {% elif perfil.rubro == 'belleza' %}
+            Nuevo Profesional
+          {% elif perfil.rubro == 'salud' %}
+            Nuevo Especialista
+          {% elif perfil.rubro == 'educacion' %}
+            Nuevo Instructor
+          {% else %}
+            Nuevo Recurso
+          {% endif %}
+        </a>
+      </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="stats-cards">
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          {% if perfil.rubro == 'deporte' %}
+            <i class="fas fa-building"></i>
+          {% else %}
+            <i class="fas fa-user-friends"></i>
+          {% endif %}
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">{{ total_profesionales }}</span>
+          <span class="stat-label">
+            {% if perfil.rubro == 'deporte' %}
+              Total Instalaciones
+            {% elif perfil.rubro == 'belleza' %}
+              Total Profesionales
+            {% elif perfil.rubro == 'salud' %}
+              Total Especialistas
+            {% elif perfil.rubro == 'educacion' %}
+              Total Instructores
+            {% else %}
+              Total Recursos
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">{{ activos }}</span>
+          <span class="stat-label">Activos</span>
+        </div>
+      </div>
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          <i class="fas fa-ban"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">{{ inactivos }}</span>
+          <span class="stat-label">Inactivos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla mejorada -->
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>
+              {% if perfil.rubro == 'deporte' %}
+                Instalación
+              {% elif perfil.rubro == 'belleza' %}
+                Profesional
+              {% elif perfil.rubro == 'salud' %}
+                Especialista
+              {% elif perfil.rubro == 'educacion' %}
+                Instructor
+              {% else %}
+                Recurso
+              {% endif %}
+            </th>
+            <th>
+              {% if perfil.rubro == 'deporte' %}
+                Características
+              {% else %}
+                Especialidad
+              {% endif %}
+            </th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in profesionales %}
+            <tr class="{% if not p.activo %}inactivo-row{% endif %}">
+              <td class="profesional-cell">
+                <div class="avatar-placeholder">
+                  {% if perfil.rubro == 'deporte' %}
+                    <i class="fas fa-futbol"></i>
+                  {% else %}
+                    <i class="fas fa-user-circle"></i>
+                  {% endif %}
+                </div>
+                <div class="profesional-info">
+                  <strong>{{ p.nombre }}</strong>
+                  <small>
+                    {% if perfil.rubro == 'deporte' %}
+                      ID: C-{{ p.id }}
+                    {% else %}
+                      ID: P-{{ p.id }}
+                    {% endif %}
+                  </small>
+                </div>
+              </td>
+              <td>
+                <span class="especialidad-tag">
+                  {% if perfil.rubro == 'deporte' %}
+                    <i class="fas fa-table-tennis"></i>
+                  {% else %}
+                    <i class="fas fa-briefcase"></i>
+                  {% endif %}
+                  {{ p.especialidad|default:'General' }}
+                </span>
+              </td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="status-badge {% if p.activo %}status-activo{% else %}status-inactivo{% endif %}">
+                    {% if p.activo %}Activo{% else %}Inactivo{% endif %}
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="acciones-group">
+                  <a href="{% url 'editar_profesional' p.id %}" class="btn-icon editar" title="Editar"><i class="fas fa-pencil-alt"></i></a>
+                  <a href="#" class="btn-icon eliminar" title="Eliminar" onclick="eliminarProfesional({{ p.id }}, '{{ p.nombre|escapejs }}'); return false;"><i class="fas fa-trash-alt"></i></a>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="empty-message">
+                <div class="empty-state">
+                  {% if perfil.rubro == 'deporte' %}
+                    <i class="fas fa-futbol"></i>
+                  {% else %}
+                    <i class="fas fa-user-slash"></i>
+                  {% endif %}
+                  <h4>
+                    {% if perfil.rubro == 'deporte' %}
+                      No hay instalaciones registradas
+                    {% elif perfil.rubro == 'belleza' %}
+                      No hay profesionales registrados
+                    {% elif perfil.rubro == 'salud' %}
+                      No hay especialistas registrados
+                    {% elif perfil.rubro == 'educacion' %}
+                      No hay instructores registrados
+                    {% else %}
+                      No hay recursos registrados
+                    {% endif %}
+                  </h4>
+                  <p>
+                    {% if perfil.rubro == 'deporte' %}
+                      Comienza agregando tu primera cancha o espacio deportivo
+                    {% else %}
+                      Comienza agregando tu primer recurso
+                    {% endif %}
+                  </p>
+                  <a href="{% url 'crear_profesional' %}" class="btn-empty-action">
+                    <i class="fas fa-plus"></i>
+                    {% if perfil.rubro == 'deporte' %}
+                      Agregar Instalación
+                    {% else %}
+                      Agregar Recurso
+                    {% endif %}
+                  </a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    function eliminarProfesional(id, nombre) {
+      Swal.fire({
+        title: '¿Eliminar?',
+        text: `¿Estás seguro de que deseas eliminar "${nombre}"?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Eliminando...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading()
+            }
+          })
+    
+          let csrfToken = ''
+          const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]')
+          if (csrfInput) {
+            csrfToken = csrfInput.value
+          } else {
+            const cookieValue = document.cookie.split('; ').find((row) => row.startsWith('csrftoken='))
+            if (cookieValue) {
+              csrfToken = cookieValue.split('=')[1]
+            }
+          }
+    
+          const controller = new AbortController()
+          const timeoutId = setTimeout(() => controller.abort(), 10000)
+    
+          fetch(`/profesionales/eliminar/${id}/`, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrfToken,
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            signal: controller.signal
+          })
+            .then((response) => {
+              clearTimeout(timeoutId)
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+              }
+              return response.json()
+            })
+            .then((data) => {
+              if (data.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Eliminado!',
+                  text: `"${nombre}" ha sido eliminado correctamente`,
+                  confirmButtonColor: '#28a745',
+                  confirmButtonText: 'OK'
+                }).then(() => {
+                  location.reload()
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: data.error || 'No se pudo eliminar',
+                  confirmButtonColor: '#dc3545'
+                })
+              }
+            })
+            .catch((error) => {
+              clearTimeout(timeoutId)
+              console.error('Error:', error)
+    
+              let mensaje = 'No se pudo conectar con el servidor'
+              if (error.name === 'AbortError') {
+                mensaje = 'La solicitud tardó demasiado. Verifica tu conexión.'
+              }
+    
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: mensaje,
+                confirmButtonColor: '#dc3545'
+              })
+            })
+        }
+      })
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,99 @@
+/* --- Sección General --- */
+.services-overview-area {
+    width: 90%;
+    max-width: 1200px;
+    margin: 60px auto; /* Separamos de la URL pública */
+    padding: 0 20px;
+    text-align: left; /* Alineación a la izquierda inspirada */
+}
+
+/* Título principal centrado */
+.section-main-title {
+    font-size: 36px; /* Más grande y potente */
+    color: #1a1a1a;
+    font-weight: 600;
+    margin-bottom: 70px; /* Más aire abajo */
+    text-align: center;
+}
+
+/* --- El Grid (Mantenemos la estructura 2x2) --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas iguales */
+    gap: 60px 40px; /* Más espacio vertical entre bloques */
+}
+
+/* --- Cada Bloque de Servicio (EL CAMBIO CLAVE) --- */
+.service-item {
+    display: flex;
+    align-items: flex-start; /* Icono y texto arriba */
+    background: transparent !important; /* QUITAMOS EL FONDO BLANCO CUADRADO */
+    padding: 10px; /* Menos padding para que no se vea como cajita */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: none !important; /* Eliminamos bordes */
+    box-shadow: none !important; /* Eliminamos sombras duras */
+}
+
+/* Pequeña sombra sutil y suave al pasar el mouse */
+.service-item:hover {
+    background: rgba(255, 255, 255, 0.3) !important; /* Un "brillo" muy tenue */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+}
+
+/* --- Iconos Flotantes --- */
+.service-icon-wrapper {
+    width: 80px; /* Tamaño del icono */
+    margin-right: 25px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease; /* Para la animación del icono */
+}
+
+/* Animación: El icono sube sutilmente en hover */
+.service-item:hover .service-icon-wrapper {
+    transform: translateY(-8px);
+}
+
+.service-icon {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* --- Textos (El otro cambio clave) --- */
+.service-text-wrapper {
+    flex: 1;
+}
+
+.service-title {
+    font-size: 24px;
+    color: #ef233c; /* ROJO de VORTEX en los títulos */
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.service-description {
+    font-size: 16px;
+    color: #444; /* Un gris un poco más oscuro para que se lea mejor sobre el WebP */
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* --- Responsive para celular --- */
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: 1fr; /* Una columna en celulares */
+        gap: 40px;
+    }
+    .service-item {
+        flex-direction: column; /* Icono arriba del texto en móvil */
+        text-align: center;
+        align-items: center; /* Centrado en móvil */
+    }
+    .service-icon-wrapper {
+        margin-right: 0;
+        margin-bottom: 25px;
+    }
+}

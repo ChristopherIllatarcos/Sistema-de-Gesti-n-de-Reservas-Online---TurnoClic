@@ -1,0 +1,49 @@
+{% extends 'reservas/base_limpia.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/mensajes.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="mensajes-container">
+    <div class="top-bar">
+      <a href="{% url 'dashboard' %}" class="btn-back">← Volver</a>
+      <h2>📩 Mensajes</h2>
+    </div>
+
+    <div class="stats">
+      <div class="stat-box">
+        <span class="stat-label">Total</span>
+        <strong class="stat-value">{{ mensajes|length }}</strong>
+      </div>
+
+      <div class="stat-box highlight">
+        <span class="stat-label">No leídos</span>
+        <strong class="stat-value">{{ mensajes_count }}</strong>
+      </div>
+    </div>
+
+    <div class="mensajes-lista">
+      {% for m in mensajes %}
+        <div class="mensaje-card {% if not m.leido %}no-leido{% endif %}">
+          <div class="mensaje-header">
+            <h4>{{ m.asunto }}</h4>
+            <small>{{ m.creado_en|date:'d M Y H:i' }}</small>
+          </div>
+
+          <p class="mensaje-texto">{{ m.mensaje }}</p>
+
+          <div class="mensaje-footer">
+            <span>👤 {{ m.nombre }}</span>
+            <span>📧 {{ m.correo }}</span>
+          </div>
+        </div>
+      {% empty %}
+        <p class="empty">No tienes mensajes todavía</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  
+{% endblock %}

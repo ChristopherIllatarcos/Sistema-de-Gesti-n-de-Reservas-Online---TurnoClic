@@ -1,0 +1,226 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/crear_profesional.css' %}?v=1.2" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+<div class="form-profesional-container">
+    <div class="form-profesional-card">
+        <div class="form-header">
+            <div class="header-icon">
+                {% if perfil.rubro == 'deporte' %}
+                    <i class="fas fa-futbol"></i>
+                {% elif perfil.rubro == 'belleza' %}
+                    <i class="fas fa-user-edit"></i>
+                {% elif perfil.rubro == 'salud' %}
+                    <i class="fas fa-user-md"></i>
+                {% elif perfil.rubro == 'educacion' %}
+                    <i class="fas fa-chalkboard-user"></i>
+                {% else %}
+                    <i class="fas fa-edit"></i>
+                {% endif %}
+            </div>
+            <div class="header-text">
+                <h2>
+                    {% if perfil.rubro == 'deporte' %}
+                        Editar Instalación
+                    {% elif perfil.rubro == 'belleza' %}
+                        Editar Profesional
+                    {% elif perfil.rubro == 'salud' %}
+                        Editar Especialista
+                    {% elif perfil.rubro == 'educacion' %}
+                        Editar Instructor
+                    {% else %}
+                        Editar Recurso
+                    {% endif %}
+                </h2>
+                <p>
+                    {% if perfil.rubro == 'deporte' %}
+                        Actualiza los datos de la cancha o espacio deportivo
+                    {% elif perfil.rubro == 'belleza' %}
+                        Actualiza los datos del profesional
+                    {% elif perfil.rubro == 'salud' %}
+                        Actualiza los datos del especialista
+                    {% elif perfil.rubro == 'educacion' %}
+                        Actualiza los datos del instructor
+                    {% else %}
+                        Actualiza los datos del recurso
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <form method="POST" class="form-profesional" id="formEditarProfesional">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-user"></i>
+                    {% if perfil.rubro == 'deporte' %}
+                        Nombre de la Instalación
+                    {% elif perfil.rubro == 'belleza' %}
+                        Nombre completo
+                    {% elif perfil.rubro == 'salud' %}
+                        Nombre del especialista
+                    {% elif perfil.rubro == 'educacion' %}
+                        Nombre del instructor
+                    {% else %}
+                        Nombre del recurso
+                    {% endif %}
+                    <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    {% if perfil.rubro == 'deporte' %}
+                        <i class="fas fa-futbol"></i>
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                    <input type="text" 
+                           id="nombre" 
+                           name="nombre" 
+                           value="{{ profesional.nombre }}"
+                           required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-briefcase"></i>
+                    {% if perfil.rubro == 'deporte' %}
+                        Características / Tipo
+                    {% elif perfil.rubro == 'belleza' %}
+                        Especialidad
+                    {% elif perfil.rubro == 'salud' %}
+                        Especialidad
+                    {% elif perfil.rubro == 'educacion' %}
+                        Especialidad / Área
+                    {% else %}
+                        Descripción
+                    {% endif %}
+                </label>
+                <div class="input-icon">
+                    {% if perfil.rubro == 'deporte' %}
+                        <i class="fas fa-table-tennis"></i>
+                    {% else %}
+                        <i class="fas fa-tools"></i>
+                    {% endif %}
+                    <input type="text" 
+                           id="especialidad" 
+                           name="especialidad" 
+                           value="{{ profesional.especialidad|default:'' }}">
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="activo" id="activo" {% if profesional.activo %}checked{% endif %}>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">
+                        <i class="fas fa-check-circle"></i>
+                        {% if perfil.rubro == 'deporte' %}
+                            Disponible
+                        {% else %}
+                            Activo
+                        {% endif %}
+                    </span>
+                </label>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-guardar" id="btnActualizar">
+                    <i class="fas fa-save"></i>
+                    {% if perfil.rubro == 'deporte' %}
+                        Actualizar Instalación
+                    {% elif perfil.rubro == 'belleza' %}
+                        Actualizar Profesional
+                    {% elif perfil.rubro == 'salud' %}
+                        Actualizar Especialista
+                    {% elif perfil.rubro == 'educacion' %}
+                        Actualizar Instructor
+                    {% else %}
+                        Actualizar Recurso
+                    {% endif %}
+                </button>
+                <a href="{% url 'lista_profesionales' %}" class="btn-cancelar">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const form = document.getElementById('formEditarProfesional');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const nombre = document.getElementById('nombre').value.trim();
+        
+        if (nombre === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campo requerido',
+                text: '{% if perfil.rubro == "deporte" %}El nombre de la instalación es obligatorio{% else %}El nombre es obligatorio{% endif %}',
+                confirmButtonColor: '#4361ee'
+            });
+            return;
+        }
+        
+        Swal.fire({
+            title: 'Actualizando...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        const formData = new FormData(form);
+        
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Actualizado!',
+                    text: data.message || 'Los datos han sido actualizados correctamente',
+                    confirmButtonColor: '#28a745',
+                    confirmButtonText: 'Ir al listado'
+                }).then(() => {
+                    window.location.href = '{% url "lista_profesionales" %}';
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'No se pudo actualizar',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor. Intenta nuevamente.',
+                confirmButtonColor: '#dc3545'
+            });
+        });
+    });
+</script>
+{% endblock %}

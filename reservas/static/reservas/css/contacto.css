@@ -1,0 +1,278 @@
+.contacto-area {
+    padding: 60px 5%;
+}
+
+.contacto-wrapper {
+    display: flex;
+    gap: 50px;
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+/* 1. Limpiamos la lista completa */
+.contacto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* Un buen espacio entre cada fila */
+}
+
+/* 2. El truco principal: Amarrar icono y texto en una fila verticalmente centrada */
+.info-item {
+    display: flex;
+    align-items: center; /* ¡ESTO ES CLAVE! Centra icono y texto verticalmente */
+}
+
+/* 3. Estabilizamos el tamaño de los iconos PNG */
+.info-icon {
+    /* Definimos un cuadrado fijo para que todos tengan la misma "caja" */
+    width: 60px;
+    height: 60px;
+    margin-right: 15px; /* Un buen espacio con el texto a la derecha */
+    display: flex;
+    align-items: center; /* Centrado interno del PNG */
+    justify-content: center;
+}
+
+.info-icon img {
+    /* Hacemos que la imagen original se adapte a nuestra caja fija de 60x60 */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Mantiene la proporción sin estirarse */
+}
+
+/* OPCIONAL: Pequeña animación al hover en el icono entero */
+.info-item:hover .info-icon {
+    transform: scale(1.1); /* Se agranda un pelito al pasar el mouse */
+}
+
+
+
+/* 4. Estilo limpio para el texto */
+.info-text h4 {
+    margin: 0;
+    color: #ef233c; /* El rojo sangre del logo */
+    font-size: 1.1rem;
+}
+
+.info-text p {
+    margin: 0;
+    color: #666;
+    margin-top: 3px; /* Pequeño espacio bajo el título */
+}
+
+/* Estilo del Formulario */
+.contacto-form-container {
+    flex: 1.5;
+}
+
+.vortex-form .form-group {
+    margin-bottom: 20px;
+}
+
+.vortex-form input, 
+.vortex-form select, 
+.vortex-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background: #fdfdfd;
+}
+
+/* EFECTO FOCO ROJO SANGRE */
+.vortex-form input:focus, 
+.vortex-form select:focus, 
+.vortex-form textarea:focus {
+    border-color: #ef233c;
+    background: #fff;
+    box-shadow: 0 0 15px rgba(138, 3, 3, 0.2);
+}
+
+/* Botón de Envío */
+.btn-enviar-vortex {
+    width: 100%;
+    padding: 15px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-enviar-vortex:hover {
+    background: #ef233c;
+    box-shadow: 0 0 20px rgba(138, 3, 3, 0.5);
+    transform: translateY(-3px);
+}
+
+
+/* Contenedor para mantener el logo y el texto en la misma línea */
+.brand-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el icono y la palabra */
+    vertical-align: middle;
+}
+
+.vortex-pulse {
+    font-family: 'Arial Black', sans-serif;
+    font-weight: 950;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    display: inline-flex;
+    letter-spacing: -1.5px; /* Para que TURNO se vea compacto */
+}
+
+.vortex-pulse .highlight {
+    background: linear-gradient(180deg, #ff4d5a 0%, #ef233c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-left: -4px; /* EL TRUCO: Aquí es donde se pega CLIC a TURNO */
+    filter: drop-shadow(0 0 5px rgba(239, 35, 60, 0.2));
+}
+
+/* Reutilizamos las animaciones para que el contacto se sienta vivo */
+.logo-svg-inline .hand-anim {
+    transform-origin: 12px 12px;
+    animation: rotateHand 8s linear infinite;
+}
+
+.logo-svg-inline .cursor-anim {
+    transform-origin: 20px 20px;
+    animation: clickPulse 2s ease-in-out infinite;
+}
+
+/* El contenedor del logo y el nombre */
+.brand-wrapper {
+    display: inline-flex;   /* Se comporta como texto pero permite alinear hijos */
+    align-items: center;    /* Nivela el SVG con las letras */
+    gap: 8px;
+    /* Si notas que TURNOCLIC sigue un pelín arriba, usa este ajuste manual: */
+    position: relative;
+    top: 1px; 
+}
+
+/* El SVG limpio sin sombras ni filtros */
+.logo-svg-clean {
+    filter: none; /* Quitamos cualquier brillo heredado */
+}
+
+/* Reutilizamos las animaciones del SVG */
+.logo-svg-clean .hand-anim {
+    transform-origin: 12px 12px;
+    animation: rotateHand 8s linear infinite;
+}
+
+.logo-svg-clean .cursor-anim {
+    transform-origin: 20px 20px;
+    animation: clickPulse 2s ease-in-out infinite;
+}
+
+/* El nombre completo sin espacios y con la tipografía gruesa */
+.brand-name-full {
+    font-family: 'Arial Black', sans-serif;
+    font-weight: 950;
+    font-size: 2.2rem;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    display: inline-flex;
+    letter-spacing: -2px; /* Forzamos que se peguen las palabras */
+}
+
+/* ESTILO EXCLUSIVO PARA 'CLIC': Solo este tiene el brillo Vortex */
+.brand-clic-glow {
+    background: linear-gradient(180deg, #ff4d5a 0%, #ef233c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 950;
+    margin-left: -5px; /* Ajuste milimétrico para pegar CLIC a TURNO */
+    
+    /* El EFECTO BRILLO VORTEX SOLO AQUÍ */
+    filter: drop-shadow(0 0 5px rgba(239, 35, 60, 0.4));
+    padding: 0 5px; /* Un poco de aire para que el brillo no se corte */
+}
+
+/* El título principal debe ser el eje de todo */
+.section-main-title {
+    display: flex;
+    align-items: center;    /* Centra verticalmente el texto y el logo */
+    justify-content: center; /* Centra todo el bloque en la página */
+    flex-wrap: wrap;        /* Por si la pantalla es muy chica */
+    gap: 10px;              /* Espacio entre 'Conecta con' y el logo */
+    line-height: 1;         /* Evita espacios extra arriba/abajo */
+}
+
+/* El texto "Conecta con" */
+.section-main-title span:first-child {
+    font-size: 1.6rem; /* Bajamos un poco para que no compita tanto */
+    color: #333;
+    font-weight: 400;
+}
+
+.vortex-form input,
+.vortex-form select,
+.vortex-form textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  background: #fff;
+  transition: 0.2s ease;
+  box-sizing: border-box;
+}
+
+.vortex-form input:focus,
+.vortex-form select:focus,
+.vortex-form textarea:focus {
+  border-color: #ef233c;
+  box-shadow: 0 0 0 4px rgba(239, 35, 60, 0.15);
+}
+
+.vortex-form textarea {
+  resize: none;
+  min-height: 130px;
+}
+
+
+.btn-enviar-vortex {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #111, #222);
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-enviar-vortex:hover {
+  background: linear-gradient(90deg, #ef233c, #d90429);
+  transform: translateY(-2px);
+}
+
+/* Responsivo */
+@media (max-width: 850px) {
+    .contacto-wrapper {
+        flex-direction: column;
+        padding: 20px;
+    }
+}

@@ -1,0 +1,125 @@
+.planes-vortex {
+    padding: 80px 5%;
+    text-align: center;
+}
+
+.planes-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Alinea las tarjetas abajo para que la del medio resalte arriba */
+    gap: 25px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+/* Tarjeta Base */
+.plan-v-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 320px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Plan PRIME (Destacado) */
+.plan-v-card.featured {
+    border: 2px solid #ef233c;
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(138, 3, 3, 0.15);
+    background: #fff;
+}
+
+.plan-v-card.featured:hover {
+    box-shadow: 0 0 30px rgba(138, 3, 3, 0.5); /* Brillo rojo sangre */
+}
+
+/* Badge Superior */
+.v-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ef233c;
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 900;
+}
+
+.plan-v-header h3 {
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+    color: #1a1a1a;
+}
+
+.plan-price {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #ef233c;
+    margin: 20px 0;
+}
+
+.plan-price span {
+    font-size: 1rem;
+    color: #888;
+}
+
+.plan-v-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0;
+    text-align: left;
+}
+
+.plan-v-body li {
+    padding: 10px 0;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.locked {
+    color: #bbb !important;
+    text-decoration: line-through;
+}
+
+.check {
+    color: #ef233c;
+    margin-right: 10px;
+}
+
+/* Botones */
+.btn-v-principal {
+    display: block;
+    background: #ef233c;
+    color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-v-principal:hover {
+    background: #ef233c;
+    box-shadow: 0 5px 15px rgba(239, 35, 60, 0.4);
+}
+
+.btn-v-secundario {
+    display: block;
+    border: 2px solid #ef233c;
+    color: #ef233c;
+    padding: 13px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-v-secundario:hover {
+    background: #ef233c;
+    color: #fff;
+}

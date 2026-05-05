@@ -1,0 +1,446 @@
+{% extends 'reservas/base.html' %}
+{% load static %}
+
+{% block content %}
+  {# Hero principal #}
+  <section class="hero-container">
+    <div class="hero-info">
+      <div class="nav-logo-hero">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+          <circle cx="12" cy="12" r="10" stroke="#ef233c" stroke-width="2" />
+          <path class="hand-anim" d="M12 7V12L14.5 14.5" stroke="#ef233c" stroke-width="2" stroke-linecap="round" />
+          <g class="cursor-anim">
+            <path d="M18 18L22 22M22 22V17M22 22H17" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+        </svg>
+        <span class="logo-text">TURNO<span class="highlight">CLIC</span></span>
+      </div>
+
+      <h1 class="hero-title">Sistema de Gestión de Reservas <span class="red-text">Online</span></h1>
+      <p class="hero-subtitle">Optimiza tu tiempo y potencia tu negocio con una agenda que funciona las 24 horas.</p>
+      <div class="features-wrapper">
+        <div class="features-mini-grid">
+          <div class="mini-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA" /><span>WhatsApp</span>
+          </div>
+          <div class="mini-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail" /><span>Emails</span>
+          </div>
+          <div class="mini-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/1019/1019607.png" alt="Pay" /><span>Pagos</span>
+          </div>
+          <div class="mini-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/1674/1674715.png" alt="Web" /><span>Enlace Propio</span>
+          </div>
+          <div class="mini-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Calendar" /><span>Agenda</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="url-badge">
+        <p>Tu dirección pública de reservas:</p>
+        <code>https://tu_negocio.turnoclic.cl</code>
+      </div>
+
+      <div class="sectors-optimization-area">
+        <p class="optimization-title">Ideal para ser implementado en:</p>
+        <div class="sectors-floating-bar-wide">
+          <div class="floating-item">
+            <div class="f-icon">💈</div><span class="f-text">Estética</span>
+          </div>
+          <div class="floating-item">
+            <div class="f-icon">⚽</div><span class="f-text">Deportes</span>
+          </div>
+          <div class="floating-item">
+            <div class="f-icon">🎉</div><span class="f-text">Eventos</span>
+          </div>
+          <div class="floating-item">
+            <div class="f-icon">🩺</div><span class="f-text">Salud</span>
+          </div>
+          <div class="floating-item">
+            <div class="f-icon">🧘</div><span class="f-text">Clases</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# Formulario de inicio de sesión #}
+    <div class="hero-login">
+      <!-- TARJETA DE LOGIN -->
+      <div class="login-card-vortex" id="login-card">
+        <div class="login-header">
+          <div class="logo-animation-wrapper">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="login-logo-svg">
+              <circle cx="12" cy="12" r="10" stroke="#ef233c" stroke-width="2" />
+              <path class="hand-anim" d="M12 7V12L14.5 14.5" stroke="#ef233c" stroke-width="2" stroke-linecap="round" />
+              <g class="cursor-anim">
+                <path d="M18 18L22 22M22 22V17M22 22H17" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+            </svg>
+          </div>
+          <h3 class="logo-text-login">TURNO<span class="highlight">CLIC</span></h3>
+          <p class="subtitle-login">Acceso al Sistema</p>
+        </div>
+
+        {% if messages %}
+          {% for message in messages %}
+            <p style="color: #ef233c; font-size: 0.8rem; text-align: center; margin-bottom: 10px;">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+
+        <form class="login-form" id="loginForm" method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="email" name="email" placeholder="Correo electrónico" required />
+          </div>
+
+          <div class="input-group" style="position: relative; width: 100%;">
+            <input type="password" name="password" id="login-pass" placeholder="Contraseña" required />
+            <span id="toggle-eye" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #999; display: flex; align-items: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </span>
+          </div>
+
+          <button type="submit" class="btn-login-vortex">ACCEDER</button>
+          <a href="javascript:void(0)" class="forgot-pass" id="btn-show-forgot">¿Olvidó su contraseña?</a>
+
+          <div class="login-card-footer">
+            <label class="trust-device"><input type="checkbox" name="confianza" />Confianza</label>
+            <div class="login-actions-vortex">
+              <a href="javascript:void(0)" id="btn-show-activate">Activar</a>
+              <span class="divider">|</span>
+              <a href="javascript:void(0)" id="btn-show-register">Registrarse</a>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- TARJETA DE REGISTRO CON SWEETALERT -->
+      <div class="login-card-vortex" id="register-card" style="display: none;">
+        <div class="login-header">
+          <div style="width: 50px; height: 50px; border: 2px solid #ef233c; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #ef233c; font-weight: bold; font-size: 1.5rem;">+</div>
+          <h3>Crear Cuenta</h3>
+          <p style="color: #666; font-size: 0.85rem; margin-top: 10px;">Completa tus datos.</p>
+        </div>
+
+        <form class="login-form" id="registerForm" method="POST" action="{% url 'registro' %}">
+          {% csrf_token %}
+
+          <div class="input-group">
+            <input type="text" name="nombre_completo" id="reg_nombre" placeholder="Nombre completo" required />
+          </div>
+
+          <div class="input-group">
+            <input type="email" name="email" id="reg_email" placeholder="Correo electrónico" required />
+          </div>
+
+          <div class="input-group" style="position: relative; width: 100%;">
+            <input type="password" name="pass1" id="reg_pass1" class="reg-pass" placeholder="Crear contraseña" required style="width: 100%; padding-right: 40px; box-sizing: border-box;" />
+            <span class="toggle-reg-eye" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #999; display: flex; align-items: center; z-index: 10;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </span>
+          </div>
+
+          <div class="input-group" style="position: relative; width: 100%;">
+            <input type="password" name="pass2" id="reg_pass2" class="reg-pass" placeholder="Repetir contraseña" required style="width: 100%; padding-right: 40px; box-sizing: border-box;" />
+            <span class="toggle-reg-eye" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #999; display: flex; align-items: center; z-index: 10;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </span>
+          </div>
+
+          <button type="submit" class="btn-login-vortex" style="background-color: #ef233c;">REGISTRARME</button>
+          <a href="javascript:void(0)" class="forgot-pass btn-back-to-login" style="margin-top: 15px; display: block;">← Ya tengo cuenta</a>
+        </form>
+      </div>
+
+      <!-- TARJETA DE OLVIDO -->
+      <div class="login-card-vortex" id="forgot-card" style="display: none;">
+        <div class="login-header">
+          <div style="width: 50px; height: 50px; border: 2px solid #ef233c; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #ef233c; font-weight: bold; font-size: 1.5rem;">?</div>
+          <h3>Recuperar Acceso</h3>
+        </div>
+
+        <form class="login-form" method="POST" action="{% url 'recuperar' %}">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="email" name="email" placeholder="Correo electrónico" required />
+          </div>
+          <button type="submit" class="btn-login-vortex">ENVIAR ENLACE</button>
+          <a href="javascript:void(0)" class="forgot-pass btn-back-to-login" style="margin-top: 15px; display: block;">← Volver</a>
+        </form>
+      </div>
+
+      <!-- TARJETA DE ACTIVACIÓN -->
+      <div class="login-card-vortex" id="activate-card" style="display: none;">
+        <div class="login-header">
+          <div style="width: 50px; height: 50px; border: 2px solid #ef233c; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #ef233c; font-weight: bold; font-size: 1.5rem;">✓</div>
+          <h3>Activar Cuenta</h3>
+        </div>
+
+        <form class="login-form" method="POST" action="{% url 'activar' %}">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="email" name="email" placeholder="Correo electrónico" required />
+          </div>
+          <button type="submit" class="btn-login-vortex" style="background-color: #ef233c;">ACTIVAR</button>
+          <a href="javascript:void(0)" class="forgot-pass btn-back-to-login" style="margin-top: 15px; display: block;">← Volver</a>
+        </form>
+      </div>
+
+      <!-- Panel de acción para demo -->
+      <div class="action-panel">
+        <div class="action-info">
+          <span class="badge-new">NUEVO</span>
+          <p>¿Ver demo?</p>
+        </div>
+        <a href="{% url 'solicitar_demo' %}" style="text-decoration: none;"><button class="btn-vortex-demo">EXPLORAR →</button></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-overview-area">
+    <h2 class="section-main-title">Soluciones de reserva para cada tipo de negocio:</h2>
+
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-icon-wrapper">
+          <img src="{% static 'reservas/img/profesionales.webp' %}" alt="Especialista" class="service-icon" />
+        </div>
+        <div class="service-text-wrapper">
+          <h3 class="service-title">Gestión de Profesionales</h3>
+          <p class="service-description">Agenda optimizada para médicos, consultores o barberos que atienden por bloques horarios.</p>
+        </div>
+      </div>
+
+      <div class="service-item">
+        <div class="service-icon-wrapper">
+          <img src="{% static 'reservas/img/recinto.webp' %}" alt="Cancha" class="service-icon" />
+        </div>
+        <div class="service-text-wrapper">
+          <h3 class="service-title">Reserva de Espacios</h3>
+          <p class="service-description">Control total sobre la disponibilidad de canchas, salones, estudios o cualquier recinto físico.</p>
+        </div>
+      </div>
+
+      <div class="service-item">
+        <div class="service-icon-wrapper">
+          <img src="{% static 'reservas/img/estetica.webp' %}" alt="Tratamiento" class="service-icon" />
+        </div>
+        <div class="service-text-wrapper">
+          <h3 class="service-title">Servicios y Procedimientos</h3>
+          <p class="service-description">Ideal para centros de estética o salud que ofrecen tratamientos específicos con tiempos definidos.</p>
+        </div>
+      </div>
+
+      <div class="service-item">
+        <div class="service-icon-wrapper">
+          <img src="{% static 'reservas/img/eventos.webp' %}" alt="Clase o Sesión" class="service-icon" />
+        </div>
+        <div class="service-text-wrapper">
+          <h3 class="service-title">Clases y Eventos Grupales</h3>
+          <p class="service-description">Manejo de inscripciones para sesiones con cupos limitados, talleres o entrenamientos funcionales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SweetAlert2 - Cargado directamente -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+  <script>
+    // Verificar que Swal está cargado
+    console.log('Swal cargado:', typeof Swal)
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      // FUNCIONALIDAD: Mostrar tarjeta de registro
+      const btnRegistro = document.getElementById('btn-show-register')
+      if (btnRegistro) {
+        btnRegistro.addEventListener('click', function (e) {
+          e.preventDefault()
+          document.getElementById('login-card').style.display = 'none'
+          document.getElementById('register-card').style.display = 'block'
+        })
+      }
+    
+      // FUNCIONALIDAD: Volver a login
+      const btnBackToLogin = document.querySelectorAll('.btn-back-to-login')
+      btnBackToLogin.forEach((btn) => {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault()
+          document.getElementById('register-card').style.display = 'none'
+          document.getElementById('forgot-card').style.display = 'none'
+          document.getElementById('activate-card').style.display = 'none'
+          document.getElementById('login-card').style.display = 'block'
+        })
+      })
+    
+      // FUNCIONALIDAD: Mostrar forgot
+      const btnForgot = document.getElementById('btn-show-forgot')
+      if (btnForgot) {
+        btnForgot.addEventListener('click', function (e) {
+          e.preventDefault()
+          document.getElementById('login-card').style.display = 'none'
+          document.getElementById('forgot-card').style.display = 'block'
+        })
+      }
+    
+      // FUNCIONALIDAD: Mostrar activate
+      const btnActivate = document.getElementById('btn-show-activate')
+      if (btnActivate) {
+        btnActivate.addEventListener('click', function (e) {
+          e.preventDefault()
+          document.getElementById('login-card').style.display = 'none'
+          document.getElementById('activate-card').style.display = 'block'
+        })
+      }
+    
+      // SweetAlert para el formulario de registro
+      const registerForm = document.getElementById('registerForm')
+      if (registerForm) {
+        console.log('Formulario de registro encontrado')
+    
+        registerForm.addEventListener('submit', function (e) {
+          e.preventDefault()
+          console.log('Formulario enviado')
+    
+          const nombre = document.getElementById('reg_nombre').value.trim()
+          const email = document.getElementById('reg_email').value.trim()
+          const pass1 = document.getElementById('reg_pass1').value
+          const pass2 = document.getElementById('reg_pass2').value
+    
+          // Validar campos
+          if (!nombre || !email || !pass1 || !pass2) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Campos incompletos',
+              text: 'Por favor, completa todos los campos.',
+              confirmButtonColor: '#ef233c'
+            })
+            return
+          }
+    
+          // Validar email
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+          if (!emailRegex.test(email)) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Email inválido',
+              text: 'Ingresa un correo electrónico válido.',
+              confirmButtonColor: '#ef233c'
+            })
+            return
+          }
+    
+          // Validar contraseñas
+          if (pass1.length < 6) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Contraseña débil',
+              text: 'La contraseña debe tener al menos 6 caracteres.',
+              confirmButtonColor: '#ef233c'
+            })
+            return
+          }
+    
+          if (pass1 !== pass2) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Contraseñas no coinciden',
+              text: 'Las contraseñas ingresadas no son iguales.',
+              confirmButtonColor: '#ef233c'
+            })
+            return
+          }
+    
+          // Mostrar loading
+          Swal.fire({
+            title: 'Registrando...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading()
+            }
+          })
+    
+          // Enviar formulario
+          const formData = new FormData(this)
+    
+          fetch('{% url "registro" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log('Respuesta:', data)
+              if (data.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Registro exitoso!',
+                  text: data.message || 'Tu cuenta ha sido creada. Revisa tu correo para activarla.',
+                  confirmButtonColor: '#28a745',
+                  confirmButtonText: 'Ir a iniciar sesión'
+                }).then(() => {
+                  document.getElementById('register-card').style.display = 'none'
+                  document.getElementById('login-card').style.display = 'block'
+                  registerForm.reset()
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: data.error || 'No se pudo completar el registro',
+                  confirmButtonColor: '#ef233c'
+                })
+              }
+            })
+            .catch((error) => {
+              console.error('Error:', error)
+              Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor',
+                confirmButtonColor: '#ef233c'
+              })
+            })
+        })
+      } else {
+        console.log('Formulario de registro NO encontrado')
+      }
+    })
+  </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const loginForm = document.getElementById('loginForm')
+      console.log('Login form encontrado:', loginForm)
+    
+      if (loginForm) {
+        loginForm.addEventListener('submit', function () {
+          const email = document.querySelector('input[name="email"]').value
+          console.log('Email a guardar:', email)
+          if (email) {
+            localStorage.setItem('turnoclic_email', email)
+            console.log('Email guardado en localStorage')
+          }
+        })
+      } else {
+        console.log('Login form NO encontrado')
+      }
+    })
+  </script>
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends 'reservas/base_limpia.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/ver_reserva.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+  <div class="reserva-container">
+    <div class="top-bar">
+      <a href="{% url 'dashboard' %}" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+      <h2>
+        {% if perfil.rubro == 'deporte' %}
+          <i class="fas fa-futbol"></i> Detalle de Reserva
+        {% elif perfil.rubro == 'belleza' %}
+          <i class="fas fa-cut"></i> Detalle de Cita
+        {% else %}
+          <i class="fas fa-calendar-check"></i> Detalle de Reserva
+        {% endif %}
+      </h2>
+    </div>
+
+    <div class="card">
+      <div class="info-row">
+        <span><i class="fas fa-tag"></i> Servicio</span>
+        <strong>{{ reserva.servicio.nombre }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span>
+          {% if perfil.rubro == 'deporte' %}
+            <i class="fas fa-futbol"></i> Cancha / Espacio
+          {% elif perfil.rubro == 'belleza' %}
+            <i class="fas fa-user"></i> Profesional
+          {% elif perfil.rubro == 'salud' %}
+            <i class="fas fa-user-md"></i> Especialista
+          {% elif perfil.rubro == 'educacion' %}
+            <i class="fas fa-chalkboard-user"></i> Instructor
+          {% else %}
+            <i class="fas fa-user"></i> Recurso
+          {% endif %}
+        </span>
+        <strong>{{ reserva.profesional.nombre }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span><i class="fas fa-calendar-day"></i> Fecha</span>
+        <strong>{{ reserva.fecha|date:'d M Y' }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span><i class="fas fa-clock"></i> Hora</span>
+        <strong>{{ reserva.hora }}</strong>
+      </div>
+
+      <hr />
+
+      <div class="info-row">
+        <span><i class="fas fa-star"></i> Tus puntos</span>
+        <strong>{{ reserva.cliente.puntos|default:0 }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span><i class="fas fa-user-circle"></i> Cliente</span>
+        <strong>{{ reserva.cliente.nombres }} {{ reserva.cliente.apellido_paterno }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span><i class="fas fa-phone"></i> Teléfono</span>
+        <strong>{{ reserva.telefono_cliente|default:'No registrado' }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span><i class="fas fa-id-card"></i> RUT</span>
+        <strong>{{ reserva.rut_cliente }}</strong>
+      </div>
+
+      <div class="info-row">
+        <span><i class="fas fa-envelope"></i> Email</span>
+        <strong>{{ reserva.cliente.correo|default:'No registrado' }}</strong>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <a href="{% url 'eliminar_reserva' reserva.id %}" class="btn-eliminar" onclick="return confirm('¿Eliminar esta reserva?')"><i class="fas fa-trash-alt"></i> Cancelar Reserva</a>
+      <a href="{% url 'dashboard' %}" class="btn-volver-dashboard"><i class="fas fa-home"></i> Ir al Dashboard</a>
+    </div>
+  </div>
+
+  {# CALIFICAR O RESENA #}
+  {% if reserva.fecha < hoy and not reserva.resena %}
+    <div class="calificacion-section" style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 16px;">
+      <h4>📝 Califica tu experiencia</h4>
+      <div class="rating-stars">
+        <i class="far fa-star" data-rating="1"></i>
+        <i class="far fa-star" data-rating="2"></i>
+        <i class="far fa-star" data-rating="3"></i>
+        <i class="far fa-star" data-rating="4"></i>
+        <i class="far fa-star" data-rating="5"></i>
+      </div>
+      <textarea id="comentario" placeholder="Cuéntanos tu experiencia..." rows="3" style="width: 100%; margin-top: 15px; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+      <button onclick="enviarCalificacion({{ reserva.id }})" class="btn-enviar" style="margin-top: 15px; background: #4361ee; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;"><i class="fas fa-star"></i> Enviar calificación</button>
+    </div>
+  {% endif %}
+
+  <script>
+    // Sistema de estrellas
+    let puntuacionSeleccionada = 0
+    
+    document.querySelectorAll('.rating-stars i').forEach((star) => {
+      star.addEventListener('mouseover', function () {
+        const rating = parseInt(this.dataset.rating)
+        resetStars()
+        for (let i = 0; i < rating; i++) {
+          document.querySelectorAll('.rating-stars i')[i].className = 'fas fa-star'
+        }
+      })
+    
+      star.addEventListener('click', function () {
+        puntuacionSeleccionada = parseInt(this.dataset.rating)
+      })
+    
+      star.addEventListener('mouseout', function () {
+        resetStars()
+        if (puntuacionSeleccionada > 0) {
+          for (let i = 0; i < puntuacionSeleccionada; i++) {
+            document.querySelectorAll('.rating-stars i')[i].className = 'fas fa-star'
+          }
+        }
+      })
+    })
+    
+    function resetStars() {
+      document.querySelectorAll('.rating-stars i').forEach((star) => {
+        star.className = 'far fa-star'
+      })
+    }
+    
+    function enviarCalificacion(reservaId) {
+      if (puntuacionSeleccionada === 0) {
+        Swal.fire('Error', 'Selecciona una calificación', 'error')
+        return
+      }
+    
+      const comentario = document.getElementById('comentario').value
+    
+      fetch(`/api/enviar-resena/${reservaId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+          puntuacion: puntuacionSeleccionada,
+          comentario: comentario
+        })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            Swal.fire('¡Gracias!', data.message, 'success').then(() => {
+              location.reload()
+            })
+          } else {
+            Swal.fire('Error', data.error, 'error')
+          }
+        })
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,334 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/horarios.css' %}?v=1.3" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+  <div class="horarios-container">
+    <div class="header-gestion">
+      <div class="header-title">
+        {% if perfil.rubro == 'deporte' %}
+          <i class="fas fa-clock"></i>
+        {% else %}
+          <i class="fas fa-calendar-alt"></i>
+        {% endif %}
+        <div>
+          <h2>Bloques de Horario</h2>
+          <p>
+            {% if perfil.rubro == 'deporte' %}
+              Gestiona la disponibilidad de tus canchas o espacios
+            {% elif perfil.rubro == 'belleza' %}
+              Gestiona la disponibilidad de tus profesionales
+            {% elif perfil.rubro == 'salud' %}
+              Gestiona la disponibilidad de tus especialistas
+            {% elif perfil.rubro == 'educacion' %}
+              Gestiona la disponibilidad de tus instructores
+            {% else %}
+              Gestiona la disponibilidad de tus recursos
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="header-buttons">
+        <a href="{% url 'dashboard' %}" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver</a>
+        <button class="btn-agregar" onclick="abrirModalHorario()">
+          <i class="fas fa-plus-circle"></i> Añadir Horario
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabla de horarios -->
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>
+              <i class="fas fa-user"></i>
+              {% if perfil.rubro == 'deporte' %}
+                Instalación
+              {% elif perfil.rubro == 'belleza' %}
+                Profesional
+              {% elif perfil.rubro == 'salud' %}
+                Especialista
+              {% elif perfil.rubro == 'educacion' %}
+                Instructor
+              {% else %}
+                Recurso
+              {% endif %}
+            </th>
+            <th><i class="fas fa-calendar-day"></i> Fecha</th>
+            <th><i class="fas fa-clock"></i> Hora</th>
+            <th><i class="fas fa-circle"></i> Estado</th>
+            <th><i class="fas fa-cog"></i> Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for h in horarios %}
+            <tr>
+              <td class="profesional-cell">
+                <i class="fas {% if perfil.rubro == 'deporte' %}fa-futbol{% else %}fa-user-circle{% endif %}"></i>
+                {{ h.profesional.nombre }}
+              </td>
+              <td>{{ h.fecha|date:'d/m/Y' }}</td>
+              <td>{{ h.hora|time:'H:i' }}</td>
+              <td>
+                <span class="status-badge {% if h.esta_libre %}status-activo{% else %}status-inactivo{% endif %}">
+                  {% if h.esta_libre %}Disponible{% else %}Ocupado{% endif %}
+                </span>
+              </td>
+              <td>
+                <div class="acciones-group">
+                  <button class="btn-icon editar" onclick="editarHorario({{ h.id }})" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                  <button class="btn-icon eliminar" onclick="eliminarHorario({{ h.id }})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="empty-message">
+                <div class="empty-state">
+                  <i class="fas fa-calendar-times"></i>
+                  <h4>No hay horarios registrados</h4>
+                  <p>
+                    {% if perfil.rubro == 'deporte' %}
+                      Comienza añadiendo bloques de horario para tus canchas
+                    {% elif perfil.rubro == 'belleza' %}
+                      Comienza añadiendo bloques de horario para tus profesionales
+                    {% elif perfil.rubro == 'salud' %}
+                      Comienza añadiendo bloques de horario para tus especialistas
+                    {% elif perfil.rubro == 'educacion' %}
+                      Comienza añadiendo bloques de horario para tus instructores
+                    {% else %}
+                      Comienza añadiendo bloques de horario para tus recursos
+                    {% endif %}
+                  </p>
+                  <button class="btn-empty-action" onclick="abrirModalHorario()"><i class="fas fa-plus"></i> Añadir Horario</button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal para añadir/editar horario -->
+  <div id="modalHorario" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fas fa-calendar-plus"></i>
+        <h3 id="modalTitle">Añadir Bloque de Horario</h3>
+        <span class="close" onclick="cerrarModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="formHorario">
+          {% csrf_token %}
+          <input type="hidden" id="horario_id" name="horario_id" />
+
+          <div class="form-group">
+            <label><i class="fas fa-user"></i>
+              {% if perfil.rubro == 'deporte' %}
+                Instalación:
+              {% elif perfil.rubro == 'belleza' %}
+                Profesional:
+              {% elif perfil.rubro == 'salud' %}
+                Especialista:
+              {% elif perfil.rubro == 'educacion' %}
+                Instructor:
+              {% else %}
+                Recurso:
+              {% endif %}
+            </label>
+            <select id="profesional_id" name="profesional_id" required>
+              <option value="">Seleccione una opción</option>
+              {% for p in profesionales %}
+                <option value="{{ p.id }}">{{ p.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-calendar-day"></i> Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required />
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-clock"></i> Hora:</label>
+            <input type="time" id="hora" name="hora" required />
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="esta_libre" name="esta_libre" checked />
+              <span class="checkbox-custom"></span>
+              <span class="checkbox-text">
+                <i class="fas fa-check-circle"></i>
+                ¿Está disponible?
+              </span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-guardar" onclick="guardarHorario()"><i class="fas fa-save"></i> Guardar</button>
+        <button type="button" class="btn-cancelar" onclick="cerrarModal()"><i class="fas fa-times"></i> Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function abrirModalHorario() {
+      document.getElementById('modalTitle').innerText = 'Añadir Bloque de Horario'
+      document.getElementById('formHorario').reset()
+      document.getElementById('horario_id').value = ''
+      document.getElementById('modalHorario').style.display = 'flex'
+    }
+    
+    function cerrarModal() {
+      document.getElementById('modalHorario').style.display = 'none'
+    }
+    
+    function guardarHorario() {
+      const profesional = document.getElementById('profesional_id').value
+      const fecha = document.getElementById('fecha').value
+      const hora = document.getElementById('hora').value
+    
+      if (!profesional) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Campo requerido',
+          text: '{% if perfil.rubro == "deporte" %}Debes seleccionar una instalación{% else %}Debes seleccionar una opción{% endif %}',
+          confirmButtonColor: '#dc3545'
+        })
+        return
+      }
+    
+      if (!fecha) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Campo requerido',
+          text: 'Debes seleccionar una fecha',
+          confirmButtonColor: '#dc3545'
+        })
+        return
+      }
+    
+      if (!hora) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Campo requerido',
+          text: 'Debes seleccionar una hora',
+          confirmButtonColor: '#dc3545'
+        })
+        return
+      }
+    
+      const form = document.getElementById('formHorario')
+      const formData = new FormData(form)
+      const horarioId = document.getElementById('horario_id').value
+    
+      let url = horarioId && horarioId !== '' ? `/horarios/editar/${horarioId}/` : '/horarios/crear/'
+    
+      Swal.fire({
+        title: 'Guardando...',
+        text: 'Por favor espera',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading() }
+      })
+    
+      fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire({ icon: 'success', title: '¡Guardado!', text: data.message, confirmButtonColor: '#28a745' })
+            .then(() => location.reload())
+        } else {
+          Swal.fire({ icon: 'error', title: 'Error', text: data.error, confirmButtonColor: '#dc3545' })
+        }
+      })
+      .catch(error => {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo conectar con el servidor', confirmButtonColor: '#dc3545' })
+      })
+    }
+    
+    function editarHorario(id) {
+      Swal.fire({
+        title: 'Cargando...',
+        text: 'Obteniendo datos del horario',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      })
+    
+      fetch(`/horarios/obtener/${id}/`, {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        Swal.close()
+        if (data && data.success) {
+          document.getElementById('modalTitle').innerText = 'Editar Bloque de Horario'
+          document.getElementById('horario_id').value = data.horario.id
+          document.getElementById('profesional_id').value = data.horario.profesional_id
+          document.getElementById('fecha').value = data.horario.fecha
+          document.getElementById('hora').value = data.horario.hora
+          document.getElementById('esta_libre').checked = data.horario.esta_libre
+          document.getElementById('modalHorario').style.display = 'flex'
+        } else {
+          Swal.fire({ icon: 'error', title: 'Error', text: data?.error || 'No se pudo cargar', confirmButtonColor: '#dc3545' })
+        }
+      })
+      .catch(error => {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo conectar', confirmButtonColor: '#dc3545' })
+      })
+    }
+    
+    function eliminarHorario(id) {
+      Swal.fire({
+        title: '¿Eliminar horario?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Eliminando...', didOpen: () => Swal.showLoading() })
+    
+          fetch(`/horarios/eliminar/${id}/`, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire('¡Eliminado!', data.message, 'success').then(() => location.reload())
+            } else {
+              Swal.fire('Error', data.error, 'error')
+            }
+          })
+        }
+      })
+    }
+    
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalHorario')
+      if (event.target === modal) cerrarModal()
+    }
+  </script>
+{% endblock %}

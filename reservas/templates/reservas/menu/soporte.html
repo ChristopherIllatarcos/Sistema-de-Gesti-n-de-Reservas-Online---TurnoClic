@@ -1,0 +1,75 @@
+{% extends 'reservas/base.html' %}
+{% load static %}
+
+{% block content %}
+  <section class="soporte-area">
+    <div class="container">
+      <h2 class="section-main-title">Centro de Ayuda <span class="vortex-pulse"></span></h2>
+      <p class="section-subtitle">Todo lo que necesitas saber sobre nuestra plataforma de agendamiento.</p>
+
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question">¿Qué es TurnoClic Reserva y para qué sirve?</button>
+          <div class="faq-answer">
+            <p>TurnoClic es una plataforma inteligente diseñada para automatizar el agendamiento de citas y servicios. Sirve para que tus clientes reserven solos y tú te enfoques en atender tu negocio.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">¿Cómo mis clientes realizan una reserva?</button>
+          <div class="faq-answer">
+            <p>Es muy simple: les compartes tu link exclusivo, ellos eligen el servicio, seleccionan un horario disponible y ¡listo! Ambos reciben una confirmación al instante.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">¿Puedo personalizar los horarios y servicios?</button>
+          <div class="faq-answer">
+            <p>Totalmente. Puedes configurar bloques horarios, tiempos de duración, días de descanso y cupos limitados por cada servicio que ofrezcas.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">¿El sistema envía recordatorios automáticos?</button>
+          <div class="faq-answer">
+            <p>Sí, cuenta con un módulo de notificaciones que envía correos electrónicos para confirmar la cita y recordar al cliente antes del servicio, reduciendo las inasistencias.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">¿Qué tan segura está mi información y la de mis clientes?</button>
+          <div class="faq-answer">
+            <p>En TurnoClic nos tomamos la seguridad en serio. Contamos con una arquitectura de base de datos protegida y respaldos periódicos para asegurar que tu agenda y datos de contacto estén siempre disponibles y seguros.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">¿Necesito instalar algún software pesado en mi PC?</button>
+          <div class="faq-answer">
+            <p>Para nada. TurnoClic es 100% basado en la nube. Puedes gestionar todo desde tu navegador en el computador o incluso desde tu celular mientras vas de camino al trabajo. ¡Sin instalaciones complicadas!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="soporte-contacto">
+    <h3>¿Aún tienes dudas?</h3>
+    <p>Si necesitas asistencia técnica personalizada o una implementación a medida, nuestro equipo está listo para ayudarte.</p>
+    <a href="{% url 'contacto' %}" class="btn-soporte">Contactar a Soporte</a>
+  </div>
+
+  <script>
+    const faqs = document.querySelectorAll('.faq-question')
+    faqs.forEach((faq) => {
+      faq.addEventListener('click', () => {
+        faq.classList.toggle('active')
+        const answer = faq.nextElementSibling
+        if (answer.style.maxHeight) {
+          answer.style.maxHeight = null
+        } else {
+          answer.style.maxHeight = answer.scrollHeight + 'px'
+        }
+      })
+    })
+  </script>
+{% endblock %}

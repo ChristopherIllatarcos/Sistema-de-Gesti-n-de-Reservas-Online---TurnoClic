@@ -1,0 +1,66 @@
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/dashboard.css' %}" />
+  <link rel="stylesheet" href="{% static 'reservas/css/perfil.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{% url 'dashboard' %}">📊 Resumen</a></li>
+            <li><a href="{% url 'mis_citas' %}">📅 Mis Citas</a></li>
+            <li><a href="#" class="active">👤 Mi Perfil</a></li>
+            <hr style="border: 0.5px solid #333; margin: 20px 0;">
+            <li><a href="{% url 'home' %}">⬅️ Salir</a></li>
+        </ul>
+    </aside>
+
+    {#=========================#}
+    {# --PERSONALIZAR PERFIL-- #}
+    {#=========================#}
+    <main class="main-content">
+        <div class="welcome-header">
+            <h1>Configuración de Perfil</h1>
+            <p>Personaliza la identidad de tu negocio en TurnoClic.</p>
+        </div>
+
+        <div class="data-table-container"> <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label">Nombre del Negocio</label>
+                    <input type="text" name="nombre_negocio" value="{{ perfil.nombre_negocio }}" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Logo del Negocio</label>
+                    <input type="file" name="logo" class="form-control-file">
+                    {% if perfil.logo %}
+                        <p class="status-msg">Ya tienes un logo cargado.</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" name="telefono" value="{{ perfil.telefono|default:'' }}" placeholder="+56 9..." class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" name="direccion" value="{{ perfil.direccion|default:'' }}" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Descripción Corta</label>
+                    <textarea name="descripcion" rows="3" class="form-control">{{ perfil.descripcion|default:'' }}</textarea>
+                </div>
+
+                <button type="submit" class="btn-vortex">GUARDAR CAMBIOS</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+<svg class="logo-image" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#1a1a1a"/>
+  
+  <path d="M50 20C50 20 55 35 70 35C85 35 80 55 65 65C50 75 30 65 25 50C20 35 35 25 50 20Z" 
+        stroke="#ef233c" stroke-width="4" fill="none" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" />
+  </path>
+  <path d="M50 30C55 40 65 45 65 55C65 65 55 70 45 65C35 60 35 45 50 30Z" 
+        stroke="#ef233c" stroke-width="3" fill="none" opacity="0.7" />
+        
+  <text x="50" y="62" font-family="Arial, sans-serif" font-size="32" font-weight="900" fill="white" text-anchor="middle">V</text>
+</svg>

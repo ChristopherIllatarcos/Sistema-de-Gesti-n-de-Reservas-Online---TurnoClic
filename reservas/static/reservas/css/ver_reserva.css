@@ -1,0 +1,158 @@
+   body {
+        /* Usamos la ruta completa que Django genera */
+        background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('/static/reservas/img/fondo_4.webp') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+      }
+
+/* ver_reserva.css */
+
+.reserva-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.btn-back {
+    background: #e9ecef;
+    color: #495057;
+    padding: 10px 20px;
+    border-radius: 40px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-back:hover {
+    background: #dee2e6;
+    transform: translateX(-3px);
+}
+
+.top-bar h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card {
+    background: white;
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-of-type {
+    border-bottom: none;
+}
+
+.info-row span {
+    color: #6c757d;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.info-row span i {
+    color: #4361ee;
+    width: 20px;
+}
+
+.info-row strong {
+    color: #1a1a2e;
+    font-weight: 600;
+}
+
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 2px dashed #e9ecef;
+}
+
+.acciones {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-eliminar {
+    background: #dc3545;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 40px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-eliminar:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.btn-volver-dashboard {
+    background: #e9ecef;
+    color: #495057;
+    padding: 12px 24px;
+    border-radius: 40px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-volver-dashboard:hover {
+    background: #dee2e6;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+    .reserva-container {
+        padding: 15px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .acciones {
+        flex-direction: column;
+    }
+    
+    .btn-eliminar,
+    .btn-volver-dashboard {
+        justify-content: center;
+    }
+}

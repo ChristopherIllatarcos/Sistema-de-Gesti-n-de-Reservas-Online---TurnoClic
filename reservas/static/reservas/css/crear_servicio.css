@@ -1,0 +1,489 @@
+/* ==================== FORMULARIO CREAR SERVICIO PREMIUM ==================== */
+
+.form-servicio-container {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-size: cover !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fondo animado */
+.form-servicio-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.3;
+    animation: wave 20s linear infinite;
+}
+
+@keyframes wave {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 1440px; }
+}
+
+.form-servicio-card {
+    max-width: 500px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border-radius: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: slideUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1;
+    position: relative;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header premium */
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 35px 40px;
+    background: linear-gradient(135deg, #1b1b1b 0%, #3a3a3a 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.header-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.header-icon i {
+    font-size: 40px;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+}
+
+.header-text {
+    z-index: 1;
+}
+
+.header-text h2 {
+    margin: 0 0 8px 0;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.95;
+}
+
+/* Formulario */
+.form-servicio {
+    padding: 40px;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 28px;
+    position: relative;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group label i {
+    color: #667eea;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.required {
+    color: #f56565;
+    margin-left: 4px;
+    font-size: 16px;
+    animation: shake 1s ease-in-out infinite;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+/* Inputs premium */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f7fafc;
+    color: #1a1a2e;
+    font-weight: 500;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: scale(1.01);
+}
+
+.form-group input:hover,
+.form-group textarea:hover {
+    border-color: #c3dafe;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
+}
+
+.form-group textarea {
+    resize: vertical;
+    font-family: inherit;
+    min-height: 100px;
+}
+
+/* Fila de dos columnas */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Input con prefijo precio */
+.input-precio,
+.input-duracion {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.precio-simbolo,
+.duracion-unidad {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    font-weight: 600;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.input-precio input,
+.input-duracion input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #f7fafc;
+}
+
+.input-precio input:focus,
+.input-duracion input:focus {
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.input-precio input {
+    padding-right: 50px;
+}
+
+.input-duracion input {
+    padding-right: 70px;
+}
+
+.form-text {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #718096;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-text i {
+    font-size: 12px;
+    color: #667eea;
+}
+
+.form-group:focus-within .form-text {
+    color: #667eea;
+}
+
+/* Botones premium */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.btn-guardar,
+.btn-cancelar {
+    flex: 1;
+    padding: 14px 24px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+}
+
+.btn-guardar {
+    background: linear-gradient(135deg, #030303 0%, #383838 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-guardar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-guardar:hover::before {
+    left: 100%;
+}
+
+.btn-guardar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-guardar:active {
+    transform: translateY(0);
+}
+
+.btn-cancelar {
+    background: white;
+    color: #718096;
+    border: 2px solid #404041;
+}
+
+.btn-cancelar:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+    transform: translateY(-2px);
+}
+
+/* Efecto de éxito virtual */
+@keyframes successPulse {
+    0% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(72, 187, 120, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0); }
+}
+
+.form-servicio-card.success-animation {
+    animation: successPulse 0.5s ease-out;
+}
+
+/* Scrollbar personalizada */
+.form-servicio-container::-webkit-scrollbar {
+
+    width: 8px;
+}
+
+.form-servicio-container::-webkit-scrollbar-track {
+
+    border-radius: 10px;
+}
+
+.form-servicio-container::-webkit-scrollbar-thumb {
+
+    border-radius: 10px;
+}
+
+.form-servicio-container::-webkit-scrollbar-thumb:hover {
+
+    background: linear-gradient(135deg, #3a56d4, #5a0a8f);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-servicio-container {
+        padding: 20px;
+    }
+    
+    .form-header {
+        padding: 25px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .header-icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .header-icon i {
+        font-size: 32px;
+    }
+    
+    .header-text h2 {
+        font-size: 26px;
+    }
+    
+    .form-servicio {
+        padding: 25px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .btn-guardar,
+    .btn-cancelar {
+        width: 100%;
+    }
+}
+
+/* Reducir ancho de los inputs */
+.form-servicio-card {
+    max-width: 550px;
+}
+
+.form-group input,
+.form-group textarea,
+.input-precio input,
+.input-duracion input {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Contenedor del formulario más angosto */
+.form-servicio {
+    padding: 30px 35px;
+}
+
+/* Ajustar el ancho de los campos */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Inputs más compactos */
+.form-group input,
+.input-precio input,
+.input-duracion input {
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+/* Reducir el gap del header */
+.form-header {
+    padding: 25px 35px;
+    gap: 18px;
+}
+
+.header-icon {
+    width: 65px;
+    height: 65px;
+}
+
+.header-icon i {
+    font-size: 32px;
+}
+
+.header-text h2 {
+    font-size: 24px;
+}
+
+/* Botones más compactos */
+.btn-guardar,
+.btn-cancelar {
+    padding: 11px 20px;
+    font-size: 14px;
+}

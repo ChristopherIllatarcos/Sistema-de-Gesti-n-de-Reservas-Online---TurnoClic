@@ -1,0 +1,270 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/crear_servicio.css' %}?v=1.5" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+<div class="form-servicio-container">
+    <div class="form-servicio-card">
+        <div class="form-header">
+            <div class="header-icon">
+                {% if perfil.rubro == 'deporte' %}
+                    <i class="fas fa-futbol"></i>
+                {% elif perfil.rubro == 'belleza' %}
+                    <i class="fas fa-cut"></i>
+                {% elif perfil.rubro == 'salud' %}
+                    <i class="fas fa-heartbeat"></i>
+                {% elif perfil.rubro == 'educacion' %}
+                    <i class="fas fa-chalkboard-user"></i>
+                {% else %}
+                    <i class="fas fa-box"></i>
+                {% endif %}
+            </div>
+            <div class="header-text">
+                <h2>
+                    {% if perfil.rubro == 'deporte' %}
+                        Agregar Nueva Actividad
+                    {% elif perfil.rubro == 'belleza' %}
+                        Agregar Nuevo Servicio
+                    {% elif perfil.rubro == 'salud' %}
+                        Agregar Nuevo Tratamiento
+                    {% elif perfil.rubro == 'educacion' %}
+                        Agregar Nueva Clase
+                    {% else %}
+                        Agregar Nuevo Servicio
+                    {% endif %}
+                </h2>
+                <p>
+                    {% if perfil.rubro == 'deporte' %}
+                        Registra una nueva actividad o servicio deportivo
+                    {% elif perfil.rubro == 'belleza' %}
+                        Registra un nuevo servicio para tu negocio
+                    {% elif perfil.rubro == 'salud' %}
+                        Registra un nuevo tratamiento o consulta
+                    {% elif perfil.rubro == 'educacion' %}
+                        Registra una nueva clase o curso
+                    {% else %}
+                        Registra un nuevo servicio para tu negocio
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <form method="POST" class="form-servicio" id="formCrearServicio">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="nombre">
+                    <i class="fas fa-tag"></i>
+                    {% if perfil.rubro == 'deporte' %}
+                        Nombre de la actividad
+                    {% else %}
+                        Nombre del servicio
+                    {% endif %}
+                    <span class="required">*</span>
+                </label>
+                <input type="text" 
+                       id="nombre" 
+                       name="nombre" 
+                       placeholder="{% if perfil.rubro == 'deporte' %}Ej: Partido Fútbol, Clase Yoga{% else %}Ej: Corte de Cabello, Barba, Tinte{% endif %}"
+                       required
+                       autofocus>
+                <small class="form-text">
+                    {% if perfil.rubro == 'deporte' %}
+                        Nombre descriptivo de la actividad
+                    {% else %}
+                        Nombre descriptivo del servicio
+                    {% endif %}
+                </small>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="precio">
+                        <i class="fas fa-dollar-sign"></i>
+                        Precio
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-precio">
+                        <span class="precio-simbolo">$</span>
+                        <input type="number" 
+                               id="precio" 
+                               name="precio" 
+                               placeholder="15000"
+                               required>
+                    </div>
+                    <small class="form-text">Precio en pesos chilenos (CLP)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="duracion">
+                        <i class="fas fa-clock"></i>
+                        {% if perfil.rubro == 'deporte' %}
+                            Duración (min)
+                        {% else %}
+                            Duración
+                        {% endif %}
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-duracion">
+                        <input type="number" 
+                               id="duracion" 
+                               name="duracion" 
+                               placeholder="30"
+                               required>
+                        <span class="duracion-unidad">minutos</span>
+                    </div>
+                    <small class="form-text">
+                        {% if perfil.rubro == 'deporte' %}
+                            Tiempo estimado de la actividad
+                        {% else %}
+                            Tiempo estimado del servicio
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">
+                    <i class="fas fa-align-left"></i>
+                    Descripción
+                </label>
+                <textarea id="descripcion" 
+                          name="descripcion" 
+                          rows="4"
+                          placeholder="{% if perfil.rubro == 'deporte' %}Describe la actividad en detalle...{% else %}Describe el servicio en detalle...{% endif %}"></textarea>
+                <small class="form-text">
+                    {% if perfil.rubro == 'deporte' %}
+                        Descripción opcional de la actividad
+                    {% else %}
+                        Descripción opcional del servicio
+                    {% endif %}
+                </small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-guardar" id="btnGuardar">
+                    <i class="fas fa-save"></i>
+                    {% if perfil.rubro == 'deporte' %}
+                        Guardar Actividad
+                    {% else %}
+                        Guardar Servicio
+                    {% endif %}
+                </button>
+                <a href="{% url 'lista_servicios' %}" class="btn-cancelar">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'reservas/js/loading.js' %}?v=1.0"></script>
+
+<script>
+    const form = document.getElementById('formCrearServicio');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const nombre = document.getElementById('nombre').value.trim();
+        const precio = document.getElementById('precio').value;
+        const duracion = document.getElementById('duracion').value;
+        
+        // Validaciones
+        if (nombre === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campo requerido',
+                text: 'El nombre es obligatorio',
+                confirmButtonColor: '#4361ee',
+                confirmButtonText: 'Entendido'
+            });
+            document.getElementById('nombre').focus();
+            return;
+        }
+        
+        if (precio === '' || parseFloat(precio) <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Precio inválido',
+                text: 'Ingresa un precio válido mayor a 0',
+                confirmButtonColor: '#4361ee'
+            });
+            document.getElementById('precio').focus();
+            return;
+        }
+        
+        if (duracion === '' || parseInt(duracion) <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Duración inválida',
+                text: 'Ingresa una duración válida mayor a 0 minutos',
+                confirmButtonColor: '#4361ee'
+            });
+            document.getElementById('duracion').focus();
+            return;
+        }
+        
+        // Mostrar loading
+        mostrarLoading();
+        
+        // Enviar formulario con fetch
+        const formData = new FormData(form);
+        
+        fetch('{% url "crear_servicio" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            ocultarLoading();
+            
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Creado!',
+                    text: data.message || `${nombre} ha sido agregado exitosamente`,
+                    confirmButtonColor: '#28a745',
+                    confirmButtonText: 'Ir al listado',
+                    showCancelButton: true,
+                    cancelButtonText: 'Seguir agregando',
+                    cancelButtonColor: '#6c757d'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '{% url "lista_servicios" %}';
+                    } else {
+                        form.reset();
+                        document.getElementById('nombre').focus();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'No se pudo crear',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        })
+        .catch(error => {
+            ocultarLoading();
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor',
+                confirmButtonColor: '#dc3545'
+            });
+        });
+    });
+</script>
+{% endblock %}

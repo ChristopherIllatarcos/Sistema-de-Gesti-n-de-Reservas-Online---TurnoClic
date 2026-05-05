@@ -1,0 +1,96 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reservas/css/resenas.css' %}?v=1.1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="resenas-container">
+    <div class="header-gestion">
+        <div class="header-title">
+            <i class="fas fa-star"></i>
+            <div>
+                <h2>Reseñas de clientes</h2>
+                <p>Gestiona las calificaciones de tus servicios</p>
+            </div>
+        </div>
+        <div class="header-buttons">
+            <a href="{% url 'dashboard' %}" class="btn-volver">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="stats-resenas">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_resenas }}</div>
+            <div class="stat-label">Total reseñas</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ promedio|default:0 }}</div>
+            <div class="stat-label">Promedio ⭐</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ distribucion.5 }}</div>
+            <div class="stat-label">★★★★★</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ distribucion.4 }}</div>
+            <div class="stat-label">★★★★☆</div>
+        </div>
+    </div>
+
+    <!-- Tabla de reseñas -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Calificación</th>
+                    <th>Comentario</th>
+                    <th>Servicio</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in resenas %}
+                <tr>
+                    <td class="cliente-cell">
+                        <i class="fas fa-user-circle"></i>
+                        {{ r.cliente.nombres }} {{ r.cliente.apellido_paterno }}
+                    </td>
+                    <td class="estrellas">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= r.puntuacion %}
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                            {% else %}
+                                <i class="fas fa-star" style="color: #e4e5e9;"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <span class="puntuacion-text">({{ r.puntuacion }})</span>
+                    </td>
+                    <td class="comentario-cell">
+                        {{ r.comentario|default:"<em>Sin comentario</em>"|safe }}
+                    </td>
+                    <td>{{ r.reserva.servicio.nombre }}</td>
+                    <td>{{ r.fecha_creacion|date:"d/m/Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="empty-message">
+                        <div class="empty-state">
+                            <i class="fas fa-star-half-alt"></i>
+                            <h4>No hay reseñas</h4>
+                            <p>Tus clientes aún no han calificado tus servicios</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

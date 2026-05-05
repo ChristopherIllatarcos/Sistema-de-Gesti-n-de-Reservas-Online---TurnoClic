@@ -1,0 +1,538 @@
+/* ============================================
+   RESERVAS - VERSIÓN PREMIUM
+   ============================================ */
+
+/* Variables globales */
+:root {
+    --primary: #ef233c;
+    --primary-dark: #d90429;
+    --primary-light: #ff6b6b;
+    --dark: #1a1a2e;
+    --dark-light: #2d2d44;
+    --grey: #8d99ae;
+    --grey-light: #e9ecef;
+    --white: #ffffff;
+    --success: #28a745;
+    --warning: #f59e0b;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+    --shadow-primary: 0 8px 20px rgba(239, 35, 60, 0.25);
+}
+
+/* Reset y base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/static/reservas/img/fondo_4.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Ocultar sidebar si existe */
+.sidebar {
+    display: none !important;
+}
+
+.dashboard-container {
+    display: block !important;
+}
+
+.main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+/* Tarjeta principal premium */
+.booking-card {
+    background: var(--white);
+    width: 100%;
+    max-width: 580px;
+    margin: auto;
+    border-radius: 32px;
+    box-shadow: var(--shadow-lg);
+    border-top: 5px solid var(--primary);
+    overflow: hidden;
+    padding: 0;
+    animation: slideUp 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header premium */
+.header {
+    text-align: center;
+    padding: 30px 25px 20px;
+    background: linear-gradient(135deg, var(--white) 0%, #fafafa 100%);
+}
+
+.header img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-sm);
+}
+
+.header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 5px;
+    letter-spacing: -0.3px;
+}
+
+.header p {
+    color: var(--grey);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/* Iconos sociales premium */
+.social-icons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 15px 0 10px;
+}
+
+.social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social i {
+    font-size: 36px;
+    transition: all 0.3s ease;
+}
+
+.social.ig i {
+    color: #E1306C;
+}
+
+.social.wp i {
+    color: #25D366;
+}
+
+.social:hover {
+    transform: scale(1.1);
+}
+
+.social:hover i {
+    filter: brightness(1.1);
+}
+
+/* Formulario */
+.form-container {
+    padding: 10px 30px 40px;
+    position: relative;
+    min-height: 400px;
+}
+
+/* Etiquetas */
+.label {
+    display: block;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--grey);
+    margin-bottom: 8px;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Select e inputs premium */
+.select-vortex,
+.input-vortex {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 2px solid var(--grey-light);
+    background: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.select-vortex {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ef233c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 16px;
+}
+
+.select-vortex:hover,
+.input-vortex:hover {
+    border-color: var(--primary);
+}
+
+.select-vortex:focus,
+.input-vortex:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(239, 35, 60, 0.1);
+}
+
+/* Info box */
+.info-box {
+    background: linear-gradient(135deg, #f8f9fa, #fff);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 25px;
+    border: 1px solid var(--grey-light);
+}
+
+.info-box p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.info-box b {
+    color: var(--dark);
+}
+
+/* Botón principal */
+.btn-main {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 40px;
+    font-weight: 700;
+    font-size: 14px;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
+}
+
+.btn-main.btn-back {
+    background: var(--grey-light);
+    color: var(--dark);
+}
+
+.btn-main.btn-back:hover {
+    background: var(--grey);
+    color: white;
+    box-shadow: none;
+}
+
+/* Grupo de botones */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.button-group .btn-main {
+    flex: 1;
+    margin-top: 0;
+}
+
+/* Calendario premium */
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0 15px;
+    padding: 0 10px;
+}
+
+.calendar-nav button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--primary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.calendar-nav button:hover {
+    background: var(--grey-light);
+    transform: scale(1.05);
+}
+
+#month-name {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--dark);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.day-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--grey);
+    text-align: center;
+    padding: 8px 0;
+    text-transform: uppercase;
+}
+
+.calendar-day {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border: 1px solid var(--grey-light);
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.calendar-day:hover:not(.empty) {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.calendar-day.selected {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-primary);
+}
+
+.calendar-day.available {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.calendar-day.empty {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+/* Grid de horas */
+#container-horas {
+    margin-top: 20px;
+}
+
+#fecha-seleccionada-texto {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+#horas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    gap: 10px;
+}
+
+.hora-btn {
+    padding: 12px 8px;
+    border-radius: 40px;
+    border: 1.5px solid var(--grey-light);
+    background: var(--white);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.hora-btn:hover {
+    border-color: var(--primary);
+    background: #fff5f5;
+    transform: translateY(-2px);
+}
+
+.hora-btn.selected-hora,
+.hora-btn.seleccionada {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-primary);
+}
+
+.hora-ocupada {
+    background: #f8f9fa;
+    color: var(--grey);
+    border-color: var(--grey-light);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Resumen box */
+.resumen-box {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 15px 0;
+}
+
+.resumen-info {
+    margin: 0;
+    line-height: 1.8;
+}
+
+.resumen-info b {
+    color: var(--dark);
+}
+
+hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid var(--grey-light);
+}
+
+/* Checkbox y pasos */
+.paso {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(30px);
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paso.activo {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    position: relative;
+}
+
+
+/* Estrellas de calificación */
+.rating-modal {
+    text-align: center;
+}
+
+.stars-container i {
+    font-size: 35px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 2px;
+}
+
+.stars-container i:hover {
+    transform: scale(1.15);
+}
+
+
+
+
+/* Responsive */
+@media (max-width: 640px) {
+    body {
+        padding: 15px;
+    }
+    
+    .booking-card {
+        max-width: 100%;
+        border-radius: 28px;
+    }
+    
+    .form-container {
+        padding: 10px 20px 30px;
+    }
+    
+    .header h2 {
+        font-size: 20px;
+    }
+    
+    .calendar-grid {
+        gap: 5px;
+    }
+    
+    .calendar-day {
+        font-size: 12px;
+        border-radius: 10px;
+    }
+    
+    #horas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .social i {
+        font-size: 28px;
+    }
+    
+    .select-vortex,
+    .input-vortex {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+    
+    .btn-main {
+        padding: 14px;
+        font-size: 13px;
+    }
+    
+    #horas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    }
+    
+    .hora-btn {
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+}

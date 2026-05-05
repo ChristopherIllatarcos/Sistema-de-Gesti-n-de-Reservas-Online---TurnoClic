@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Mis Citas{% endblock %}</title>
+
+    <!-- Meta tags dinámicos -->
+    <meta name="description" content="{% block description %}Sistema de gestión de reservas para negocios. Agenda citas online de forma fácil y rápida.{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}reservas online, agenda digital, gestión de citas, turnos web{% endblock %}">
+    <meta name="author" content="TURNOCLIC">
+    
+    <!-- Open Graph (Facebook/WhatsApp) -->
+    <meta property="og:title" content="{% block og_title %}TURNOCLIC - Sistema de Reservas{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Agenda tus citas online de forma fácil y rápida.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% block og_image %}{% static 'reservas/img/og-image.jpg' %}{% endblock %}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}TURNOCLIC{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Sistema de gestión de reservas online{% endblock %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'reservas/css/dashboard.css' %}?v=1.2" />
+    
+    <style>
+        /* Botón modo oscuro flotante */
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Estilos modo oscuro */
+        body.dark-mode {
+            background: #1a1a2e !important;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .sidebar,
+        body.dark-mode .main-content,
+        body.dark-mode .gestion-container,
+        body.dark-mode .dashboard-container-premium,
+        body.dark-mode .stat-card,
+        body.dark-mode .chart-card,
+        body.dark-mode .data-table-container,
+        body.dark-mode .form-container,
+        body.dark-mode .card {
+            background: #16213e !important;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .sidebar-menu li a {
+            color: #c0c0c0;
+        }
+        
+        body.dark-mode .sidebar-menu li a:hover {
+            background: #2a2a4a;
+        }
+        
+        body.dark-mode .data-table th {
+            background: #0f0f23;
+            color: #c0c0c0;
+        }
+        
+        body.dark-mode .data-table td {
+            border-bottom-color: #2a2a4a;
+        }
+        
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background: #0f0f23;
+            border-color: #2a2a4a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .demo-warning {
+            background: #2a2a4a !important;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Botón modo oscuro flotante -->
+    <button id="darkModeToggle" class="theme-toggle-btn" title="Modo oscuro/claro">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    {% block content %}{% endblock %}
+
+    <!-- Botón Volver arriba -->
+    <div id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function confirmarEliminar(event, id, baseUrl) {
+            event.preventDefault();
+            const url = baseUrl.replace('0', id);
+            Swal.fire({
+                title: '¿Eliminar reserva?',
+                text: 'Esta acción no se puede deshacer',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef233c',
+                cancelButtonColor: '#777',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // Botón Volver arriba
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+    <script>
+        // Modo oscuro
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const icon = darkModeToggle.querySelector('i');
+        
+        // Cargar tema guardado
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>

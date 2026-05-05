@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selecciona tu negocio | TURNOCLIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'reservas/css/seleccionar_negocio.css' %}?v=1.0" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1><i class="fas fa-store"></i> Selecciona tu negocio</h1>
+        <p>Elige el negocio donde deseas realizar tu reserva</p>
+      </div>
+
+      <div class="negocios-grid">
+        {% for negocio in negocios %}
+          <a href="?negocio={{ negocio.slug }}" class="negocio-card">
+            <div class="negocio-icon">
+              {% if negocio.rubro == 'deporte' %}
+                <i class="fas fa-futbol"></i>
+              {% elif negocio.rubro == 'belleza' %}
+                <i class="fas fa-cut"></i>
+              {% elif negocio.rubro == 'salud' %}
+                <i class="fas fa-heartbeat"></i>
+              {% elif negocio.rubro == 'educacion' %}
+                <i class="fas fa-chalkboard-user"></i>
+              {% else %}
+                <i class="fas fa-store"></i>
+              {% endif %}
+            </div>
+            <h3>{{ negocio.nombre_negocio }}</h3>
+            <p>{{ negocio.descripcion|default:'Reserva tu cita aquí'|truncatechars:80 }}</p>
+            <span class="slug">{{ negocio.slug|default:'sin-slug' }}.turnoclic.cl</span>
+          </a>
+        {% empty %}
+          <div class="negocio-card" style="grid-column: 1/-1;">
+            <div class="negocio-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>No hay negocios registrados</h3>
+            <p>Actualmente no hay negocios disponibles para reservar.</p>
+            <a href="{% url 'solicitar_demo' %}" class="btn-volver" style="display: inline-flex; background: #4361ee; margin-top: 20px;"><i class="fas fa-plus"></i> Solicitar Demo</a>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div style="text-align: center;">
+        <a href="{% url 'home' %}" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+      </div>
+    </div>
+  </body>
+</html>

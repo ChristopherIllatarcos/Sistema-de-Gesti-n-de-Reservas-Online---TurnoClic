@@ -1,0 +1,74 @@
+{% extends 'reservas/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="modulos-area">
+    <div class="container">
+        <h2 class="section-main-title">Software y tecnología para potenciar tu negocio</h2>
+        
+        <div class="modulos-grid">
+            
+            <div class="modulo-card">
+                <div class="modulo-img">
+                    <img src="{% static 'reservas/img/reserva.webp' %}" alt="Reservas">
+                </div>
+                <div class="modulo-info">
+                    <h3>Autogestión de Citas</h3>
+                    <p>Tus clientes agendan de forma autónoma desde cualquier dispositivo, optimizando tu tiempo y el de ellos.</p>
+                </div>
+            </div>
+
+            <div class="modulo-card">
+                <div class="modulo-img">
+                    <img src="{% static 'reservas/img/calendario.webp' %}" alt="Calendario">
+                </div>
+                <div class="modulo-info">
+                    <h3>Panel de Disponibilidad</h3>
+                    <p>Visualiza y administra tus horarios de manera centralizada. Organiza tu jornada según tus necesidades reales.</p>
+                </div>
+            </div>
+
+            <div class="modulo-card">
+                <div class="modulo-img">
+                    <img src="{% static 'reservas/img/clientes.webp' %}" alt="Clientes">
+                </div>
+                <div class="modulo-info">
+                    <h3>Base de Datos Inteligente</h3>
+                    <p>Almacena el historial de tus usuarios. Obtén reportes que te ayudarán a conocer mejor el perfil de tu público.</p>
+                </div>
+            </div>
+
+            <div class="modulo-card">
+                <div class="modulo-img">
+                    <img src="{% static 'reservas/img/flexibilidad.webp' %}" alt="Flexibilidad">
+                </div>
+                <div class="modulo-info">
+                    <h3>Arquitectura Adaptable</h3>
+                    <p>Una plataforma que se ajusta a tu modelo de negocio, permitiendo personalizar flujos y horarios específicos.</p>
+                </div>
+            </div>
+
+            <div class="modulo-card">
+                <div class="modulo-img">
+                    <img src="{% static 'reservas/img/confirmacion.webp' %}" alt="Confirmaciones">
+                </div>
+                <div class="modulo-info">
+                    <h3>Notificaciones Smart</h3>
+                    <p>El sistema envía confirmaciones y recordatorios automáticos por correo para reducir las inasistencias.</p>
+                </div>
+            </div>
+
+            <div class="modulo-card">
+                <div class="modulo-img">
+                    <img src="{% static 'reservas/img/navegador.webp' %}" alt="URL">
+                </div>
+                <div class="modulo-info">
+                    <h3>Acceso Directo</h3>
+                    <p>Cada servicio cuenta con un enlace exclusivo de fácil acceso para que tus clientes lleguen directo a reservar.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

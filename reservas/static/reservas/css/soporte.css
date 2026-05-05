@@ -1,0 +1,110 @@
+.soporte-area {
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 40px auto;
+    text-align: left;
+}
+
+.faq-item {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 15px 20px;
+    background: #fff;
+    border: none;
+    outline: none;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+/* Hover con brillo rojo sangre */
+.faq-item:hover {
+    border-color: #8a0303;
+    box-shadow: 0 0 15px rgba(138, 3, 3, 0.2);
+}
+
+.faq-question.active {
+    color: #ef233c;
+    border-bottom: 1px solid #eee;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: #f9f9f9;
+}
+
+.faq-answer p {
+    padding: 20px;
+    color: #555;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.soporte-contacto {
+    margin-top: 50px;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 15px;
+    border: 1px dashed #8a0303; /* Borde segmentado en rojo sangre */
+}
+
+.btn-soporte {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: #8a0303;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-soporte:hover {
+    background: #ef233c; /* Cambia a un rojo más vivo al pasar el mouse */
+    box-shadow: 0 0 20px rgba(138, 3, 3, 0.5);
+    transform: scale(1.05);
+}
+
+/* La clase que hace la magia */
+.vortex-pulse {
+    color: #ef233c; /* El rojo base */
+    font-weight: 800;
+    position: relative;
+    display: inline-block;
+    /* Aplicamos la animación: nombre, duración, infinita, suavizada */
+    animation: blood-glow 3s ease-in-out infinite;
+}
+
+
+/* Definición del latido de brillo */
+@keyframes blood-glow {
+    0%, 100% {
+        text-shadow: 0 0 0px rgba(138, 3, 3, 0);
+        transform: scale(1);
+    }
+    50% {
+        /* Aquí es donde brilla en rojo sangre */
+        text-shadow: 0 0 15px #8a0303, 0 0 30px rgba(138, 3, 3, 0.6);
+        transform: scale(1.02); /* Crece un pelito para dar sensación de pulso */
+        color: #ff0000; /* Se aclara un poco en el peak del brillo */
+    }
+}

@@ -1,0 +1,214 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/editar_servicio.css' %}?v=2.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+<div class="editar-servicio-container">
+    <div class="editar-servicio-card">
+        <!-- Header premium -->
+        <div class="form-header">
+            <div class="header-icon">
+                <i class="fas fa-cut"></i>
+            </div>
+            <div class="header-text">
+                <h2>Editar Servicio</h2>
+                <p>Actualiza la información de tu servicio</p>
+            </div>
+        </div>
+
+        <form method="POST" class="form-servicio" id="formEditarServicio">
+            {% csrf_token %}
+            
+            <!-- Campo Nombre -->
+            <div class="form-group">
+                <label for="nombre">
+                    <i class="fas fa-tag"></i>
+                    Nombre del servicio
+                    <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                    <i class="fas fa-scissors input-icon-left"></i>
+                    <input type="text" 
+                           id="nombre" 
+                           name="nombre" 
+                           value="{{ servicio.nombre }}"
+                           required
+                           placeholder="Ej: Corte de Cabello">
+                </div>
+                <small class="form-text">Nombre descriptivo del servicio</small>
+            </div>
+
+            <!-- Fila de Precio y Duración -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="precio">
+                        <i class="fas fa-dollar-sign"></i>
+                        Precio
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-money-bill-wave input-icon-left"></i>
+                        <input type="number" 
+                               id="precio" 
+                               name="precio" 
+                               value="{{ servicio.precio }}"
+                               required
+                               placeholder="15000">
+                        <span class="input-suffix">CLP</span>
+                    </div>
+                    <small class="form-text">Precio en pesos chilenos</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="duracion">
+                        <i class="fas fa-clock"></i>
+                        Duración
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-hourglass-half input-icon-left"></i>
+                        <input type="number" 
+                               id="duracion" 
+                               name="duracion" 
+                               value="{{ servicio.duracion_minutos }}"
+                               required
+                               placeholder="30">
+                        <span class="input-suffix">minutos</span>
+                    </div>
+                    <small class="form-text">Tiempo estimado del servicio</small>
+                </div>
+            </div>
+
+            <!-- Campo Descripción -->
+            <div class="form-group">
+                <label for="descripcion">
+                    <i class="fas fa-align-left"></i>
+                    Descripción
+                </label>
+                <div class="textarea-wrapper">
+                    <i class="fas fa-pen input-icon-left"></i>
+                    <textarea id="descripcion" 
+                              name="descripcion" 
+                              rows="4"
+                              placeholder="Describe el servicio en detalle...">{{ servicio.descripcion|default:'' }}</textarea>
+                </div>
+                <small class="form-text">Descripción opcional del servicio</small>
+            </div>
+
+            <!-- Botones -->
+            <div class="form-actions">
+                <button type="submit" class="btn-actualizar" id="btnActualizar">
+                    <i class="fas fa-save"></i>
+                    Actualizar Servicio
+                </button>
+                <a href="{% url 'lista_servicios' %}" class="btn-cancelar">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const form = document.getElementById('formEditarServicio');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const nombre = document.getElementById('nombre').value.trim();
+        const precio = document.getElementById('precio').value;
+        const duracion = document.getElementById('duracion').value;
+        
+        // Validaciones
+        if (nombre === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campo requerido',
+                text: 'El nombre del servicio es obligatorio',
+                confirmButtonColor: '#4361ee',
+                confirmButtonText: 'Entendido'
+            });
+            document.getElementById('nombre').focus();
+            return;
+        }
+        
+        if (precio === '' || parseFloat(precio) <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Precio inválido',
+                text: 'Ingresa un precio válido mayor a 0',
+                confirmButtonColor: '#4361ee'
+            });
+            document.getElementById('precio').focus();
+            return;
+        }
+        
+        if (duracion === '' || parseInt(duracion) <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Duración inválida',
+                text: 'Ingresa una duración válida mayor a 0 minutos',
+                confirmButtonColor: '#4361ee'
+            });
+            document.getElementById('duracion').focus();
+            return;
+        }
+        
+        // Mostrar loading
+        Swal.fire({
+            title: 'Actualizando servicio...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        const formData = new FormData(form);
+        
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Actualizado!',
+                    text: data.message || 'El servicio ha sido actualizado correctamente',
+                    confirmButtonColor: '#28a745',
+                    confirmButtonText: 'Ir al listado'
+                }).then(() => {
+                    window.location.href = '{% url "lista_servicios" %}';
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'No se pudo actualizar el servicio',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor',
+                confirmButtonColor: '#dc3545'
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,273 @@
+/* ============================================
+   MODO OSCURO - GLOBAL
+   ============================================ */
+
+/* Fondo general */
+body.dark-mode {
+    background: #1a1a2e !important;
+    color: #e0e0e0;
+}
+
+/* Tarjetas y contenedores */
+body.dark-mode .sidebar,
+body.dark-mode .main-content,
+body.dark-mode .gestion-container,
+body.dark-mode .dashboard-container-premium,
+body.dark-mode .stat-card,
+body.dark-mode .chart-card,
+body.dark-mode .data-table-container,
+body.dark-mode .form-container,
+body.dark-mode .card,
+body.dark-mode .booking-card,
+body.dark-mode .resumen-box,
+body.dark-mode .info-box,
+body.dark-mode .table-wrapper,
+body.dark-mode .horarios-container,
+body.dark-mode .cliente-container,
+body.dark-mode .login-card-vortex,
+body.dark-mode .mis-citas-container {
+    background: #1a1a2e !important;
+    color: #e0e0e0;
+    border-color: #1a1a2e !important;
+}
+
+/* Menú lateral */
+body.dark-mode .sidebar-menu li a {
+    color: #c0c0c0;
+}
+
+body.dark-mode .sidebar-menu li a:hover {
+    background: #1a1a2e;
+    color: #ffffff;
+}
+
+body.dark-mode .sidebar-menu li a.active {
+    background: #1a1a2e;
+    color: #ef233c;
+}
+
+/* Tablas */
+body.dark-mode .data-table th,
+body.dark-mode .data-table-premium th {
+    background: #1a1a2e !important;
+    color: #c0c0c0;
+    border-bottom-color: #1a1a2e !important;
+}
+
+body.dark-mode .data-table td,
+body.dark-mode .data-table-premium td {
+    border-bottom-color: #1a1a2e !important;
+    color: #d0d0d0;
+}
+
+body.dark-mode .data-table tbody tr:hover,
+body.dark-mode .data-table-premium tbody tr:hover {
+    background: #1a1a2e !important;
+}
+
+/* Formularios */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode .select-vortex,
+body.dark-mode .input-vortex {
+    background: #1a1a2e !important;
+    border-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+    background: #1a1a2e !important;
+    border-color: #ef233c !important;
+    box-shadow: 0 0 0 3px rgba(239, 35, 60, 0.2) !important;
+}
+
+/* Botones */
+body.dark-mode .btn-main,
+body.dark-mode .btn-agregar,
+body.dark-mode .btn-guardar {
+    background: #ef233c;
+}
+
+body.dark-mode .btn-volver,
+body.dark-mode .btn-back {
+    background: #1a1a2e;
+    color: #c0c0c0;
+}
+
+body.dark-mode .btn-volver:hover {
+    background: #1a1a2e;
+}
+
+/* Estados y badges */
+body.dark-mode .status-badge,
+body.dark-mode .estado-badge {
+    background: #1a1a2e;
+    color: #c0c0c0;
+}
+
+body.dark-mode .estado-pendiente {
+    background: #1a1a2e;
+    color: #ff8888;
+}
+
+/* Gráficos */
+body.dark-mode .chart-card canvas {
+    filter: brightness(0.9);
+}
+
+/* Demo warning */
+body.dark-mode .demo-warning {
+    background: #1a1a2e !important;
+    color: #ffcc88;
+}
+
+/* Alertas y mensajes */
+body.dark-mode .swal2-popup {
+    background: #1a1a2e !important;
+    color: #e0e0e0;
+}
+
+body.dark-mode .swal2-title {
+    color: #ffffff;
+}
+
+body.dark-mode .swal2-html-container {
+    color: #c0c0c0;
+}
+
+
+/* ============================================
+   MODO OSCURO - HOME
+   ============================================ */
+
+body.dark-mode .hero-container,
+body.dark-mode .hero-info,
+body.dark-mode .hero-login,
+body.dark-mode .login-card-vortex,
+body.dark-mode .services-overview-area,
+body.dark-mode .services-grid,
+body.dark-mode .service-item,
+body.dark-mode .features-mini-grid,
+body.dark-mode .sectors-floating-bar-wide,
+body.dark-mode .action-panel {
+    background: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .hero-title,
+body.dark-mode .section-main-title,
+body.dark-mode .service-title,
+body.dark-mode .logo-text,
+body.dark-mode .login-header h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .hero-subtitle,
+body.dark-mode .service-description,
+body.dark-mode .subtitle-login,
+body.dark-mode .url-badge p,
+body.dark-mode .action-info p,
+body.dark-mode .optimization-title {
+    color: #c0c0c0 !important;
+}
+
+body.dark-mode .url-badge code,
+body.dark-mode .floating-item span {
+    color: #ef233c !important;
+}
+
+body.dark-mode .input-group input,
+body.dark-mode .login-form input {
+    background: #1a1a2e !important;
+    border-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .btn-login-vortex {
+    background: #ef233c;
+}
+
+body.dark-mode .forgot-pass,
+body.dark-mode .login-actions-vortex a {
+    color: #c0c0c0 !important;
+}
+
+body.dark-mode .forgot-pass:hover,
+body.dark-mode .login-actions-vortex a:hover {
+    color: #ef233c !important;
+}
+
+body.dark-mode .action-panel {
+    border-color: #1a1a2e !important;
+}
+
+body.dark-mode .badge-new {
+    background: #ef233c;
+}
+
+body.dark-mode .main-footer {
+    background: #1a1a2e !important;
+    color: #c0c0c0;
+}
+
+body.dark-mode .footer-section h4,
+body.dark-mode .footer-section h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .footer-section a {
+    color: #c0c0c0;
+}
+
+body.dark-mode .footer-section a:hover {
+    color: #ef233c;
+}
+
+    
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #3a56d4, #1a1a2e);
+}
+
+/* Botón modo oscuro en el header */
+.theme-toggle-header {
+    background: none;
+    border: none;
+    color: #fcf9f9;
+    font-size: 30px;
+    cursor: pointer;
+    margin-left: 40px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}   
+
+.theme-toggle-header:hover {
+    color: #ef233c;
+    transform: scale(1.1);
+}
+
+/* Modo oscuro - color del botón */
+body.dark-mode .theme-toggle-header {
+    color: #ffd700;
+}
+
+body.dark-mode .theme-toggle-header:hover {
+    color: #ef233c;
+}
+
+@media (max-width: 768px) {
+    .nav-container-bottom {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .theme-toggle-header {
+        margin-left: auto;
+    }
+}

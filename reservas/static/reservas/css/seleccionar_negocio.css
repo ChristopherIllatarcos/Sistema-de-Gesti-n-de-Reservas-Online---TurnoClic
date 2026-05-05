@@ -1,0 +1,137 @@
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  body {
+      font-family: 'Poppins', sans-serif;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('/static/reservas/img/fondo_4.webp') !important;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+  }
+
+  .container {
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+
+  .header {
+      text-align: center;
+      margin-bottom: 50px;
+  }
+
+  .header h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+  }
+
+  .header p {
+      font-size: 18px;
+      color: #555;
+  }
+
+  .negocios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+  }
+
+  .negocio-card {
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      text-align: center;
+      text-decoration: none;
+      color: #1a1a2e;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: block;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .negocio-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .negocio-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea20, #764ba220);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+  }
+
+  .negocio-icon i {
+      font-size: 40px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+  }
+
+  .negocio-card h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: #1a1a2e;
+  }
+
+  .negocio-card p {
+      color: #6c757d;
+      font-size: 14px;
+      margin-bottom: 15px;
+  }
+
+  .negocio-card .slug {
+      display: inline-block;
+      background: #f8f9fa;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #4361ee;
+      font-family: monospace;
+  }
+
+  .btn-volver {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #4361ee, #3a0ca3);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 40px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+  }
+
+  .btn-volver:hover {
+      transform: translateX(-3px);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+  }
+
+  @media (max-width: 768px) {
+      .header h1 {
+          font-size: 28px;
+      }
+
+      .negocios-grid {
+          grid-template-columns: 1fr;
+      }
+  }

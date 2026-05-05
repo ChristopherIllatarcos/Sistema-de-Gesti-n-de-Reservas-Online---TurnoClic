@@ -1,0 +1,179 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'reservas/css/profesionales.css' %}?v=1.2" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+  <div class="gestion-container">
+    <div class="header-gestion">
+      <div class="header-title">
+        <i class="fas fa-users"></i>
+        <div>
+          <h2>Mis Profesionales</h2>
+          <p>Gestiona el equipo de trabajo de tu negocio</p>
+        </div>
+      </div>
+      <div class="header-buttons">
+        <a href="{% url 'dashboard' %}" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver</a>
+        <a href="{% url 'crear_profesional' %}" class="btn-agregar"><i class="fas fa-plus-circle"></i> Agregar Profesional</a>
+      </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <!-- Tarjetas de estadísticas con cálculo correcto -->
+    <div class="stats-cards">
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          <i class="fas fa-user-friends"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">{{ profesionales|length }}</span>
+          <span class="stat-label">Total Profesionales</span>
+        </div>
+      </div>
+      <div class="stat-card-mini">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">
+            {% for p in profesionales %}
+              {% if p.activo %}{% with count=forloop.counter %}
+              {% endwith %}{% endif %}
+            {% endfor %}
+            {{ profesionales|dictsort:'activo'|length }}
+          </span>
+          <span class="stat-label">Activos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>
+              <i class="fas fa-user"></i> Nombre
+            </th>
+            <th>
+              <i class="fas fa-briefcase"></i> Especialidad
+            </th>
+            <th>
+              <i class="fas fa-circle"></i> Estado
+            </th>
+            <th>
+              <i class="fas fa-cog"></i> Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in profesionales %}
+            <tr>
+              <td>{{ p.nombre }}</td>
+              <td>{{ p.especialidad|default:'-' }}</td>
+              <td>
+                <span class="status-badge {% if p.activo %}
+                    status-activo
+                  {% else %}
+                    status-inactivo
+                  {% endif %}">
+                  {% if p.activo %}
+                    Activo
+                  {% else %}
+                    Inactivo
+                  {% endif %}
+                </span>
+              </td>
+              <td>
+                <div class="acciones-group">
+                  <a href="{% url 'editar_profesional' p.id %}" class="btn-icon editar" title="Editar"><i class="fas fa-pencil-alt"></i></a>
+                  <a href="#" class="btn-icon eliminar" title="Eliminar" onclick="eliminarProfesional({{ p.id }}, '{{ p.nombre|escapejs }}'); return false;"><i class="fas fa-trash-alt"></i></a>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="empty-message">
+                <div class="empty-state">
+                  <i class="fas fa-user-slash"></i>
+                  <h4>No hay profesionales registrados</h4>
+                  <p>Comienza agregando tu primer profesional al equipo</p>
+                  <a href="{% url 'crear_profesional' %}" class="btn-empty-action"><i class="fas fa-plus"></i> Agregar Profesional</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function eliminarProfesional(id, nombre) {
+      Swal.fire({
+        title: '¿Eliminar profesional?',
+        text: `¿Estás seguro de que deseas eliminar a "${nombre}"?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Eliminando...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading()
+            }
+          })
+    
+          fetch(`/profesionales/eliminar/${id}/`, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Eliminado!',
+                  text: `"${nombre}" ha sido eliminado correctamente`,
+                  confirmButtonColor: '#28a745',
+                  confirmButtonText: 'OK'
+                }).then(() => {
+                  location.reload()
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: data.error || 'No se pudo eliminar',
+                  confirmButtonColor: '#dc3545'
+                })
+              }
+            })
+            .catch((error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo conectar con el servidor',
+                confirmButtonColor: '#dc3545'
+              })
+            })
+        }
+      })
+    }
+  </script>
+{% endblock %}

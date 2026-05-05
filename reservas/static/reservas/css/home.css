@@ -1,0 +1,835 @@
+
+/* Hero Section Layout */
+.hero-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 85vh;
+    gap: 40px;
+    position: relative; /* Necesario para que el divisor se pegue al fondo */
+    padding-bottom: 150px;
+}
+
+header, .navbar, .top-bar {
+    margin-top: 0 !important;
+    background-color: rgba(0, 0, 0, 0.9); /* Puedes hacerlo un poco transparente para que se vea el fondo */
+}
+
+
+
+.hero-divider .shape-fill {
+    fill: #f8f9fa; /* El mismo gris suave de las secciones inferiores */
+}
+
+.hero-info {
+    flex: 1; /* Toma el espacio de la izquierda */
+}
+
+.hero-login {
+    width: 380px; /* Tamaño ideal para el login */
+    flex-shrink: 0;
+}
+
+/* --- ESTILO DEL LOGO Y BRILLO --- */
+.nav-logo-hero {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.logo-text {
+    font-family: 'Arial Black', sans-serif; /* Usamos una fuente gruesa como la de la foto */
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    
+    /* Juntamos las letras para que parezca una sola marca */
+    letter-spacing: -8px; 
+    margin: 0;
+}
+
+.logo-text .highlight {
+    color: #ef233c;
+    animation: vortex-pulse 3s ease-in-out infinite;
+}
+
+/* El toque del degradado para el CLIC ensanchado */
+.highlight {
+    /* El degradado rojo */
+    background: linear-gradient(180deg, #ff4d5a 0%, #ef233c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    
+    /* Forzamos que no se separe nada de "TURNO" */
+    margin-left: 0; 
+    padding-left: 0;
+    
+    /* Un pequeño brillo rojo para que resalte como en tu diseño */
+    filter: drop-shadow(0 0 5px rgba(239, 35, 60, 0.3));
+}
+
+/* Ajuste del SVG para que se vea proporcional al texto más ancho */
+.logo-svg, .login-logo-svg {
+    width: 65px; /* Aumentamos el tamaño del icono un poco */
+    height: auto;
+}
+
+@keyframes vortex-pulse {
+    0%, 100% { text-shadow: 0 0 0px rgba(239, 35, 60, 0); }
+    50% { text-shadow: 0 0 15px rgba(239, 35, 60, 0.6); }
+}
+
+/* --- ICONO SVG --- */
+.logo-image {
+    transform: translateY(2px); /* Centrado perfecto con el texto */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--dark-color);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.features-mini-grid {
+    display: flex;
+    flex-wrap: nowrap; /* ¡IMPORTANTE! Evita que se bajen a la siguiente fila */
+    gap: 2.5rem; /* Espacio entre cada icono */
+    min-width: max-content; /* Fuerza al contenedor a ser tan ancho como sus hijos */
+    padding: 10px 5px;
+}
+
+.mini-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0; /* Evita que los iconos se achiquen para "caber" */
+    width: 100px; /* Ancho fijo para cada columna */
+}
+
+.mini-item img {
+    width: 50px; /* Un poco más grandes para que luzca el color */
+    height: 50px;
+    filter: none !important; /* Asegura que se vean a todo color */
+    transition: transform 0.3s ease;
+}
+
+.mini-item span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.mini-item:hover img {
+    transform: scale(1.1) rotate(5deg); /* Un pequeño giro para que se vea más dinámico */
+}
+
+/* Login Card */
+.login-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo-animation-wrapper {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Reutilizamos las animaciones que creamos antes */
+.hand-anim {
+    transform-origin: 12px 12px;
+    animation: rotateHand 8s linear infinite;
+}
+
+.cursor-anim {
+    transform-origin: 20px 20px;
+    animation: clickPulse 2s ease-in-out infinite;
+}
+
+.logo-text-login {
+    font-family: 'Arial Black', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    display: flex; /* Importante para que el margen funcione bien */
+    justify-content: center;
+    align-items: center;
+    letter-spacing: -1px; /* Junta las letras de "TURNO" */
+}
+
+.logo-text-login .highlight {
+    /* Tiramos de la palabra hacia la izquierda */
+    margin-left: -10px; 
+    
+    /* El resto del estilo que ya tenías */
+    background: linear-gradient(180deg, #ff4d5a 0%, #ef233c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 900;
+}
+
+.logo-text, .logo-text-login {
+    font-family: 'Inter Black', 'Segoe UI Bold', 'Arial Black', sans-serif; /* Tipografía extra negrita y ancha */
+    font-weight: 950; /* Al máximo de grosor disponible */
+    font-size: 2.2rem; /* Aumentamos el tamaño un poco */
+    color: #1a1a1a;
+    letter-spacing: 2px; /* Aumentamos el espacio entre letras para darle ancho */
+    text-transform: uppercase; /* Todo en mayúsculas para más fuerza */
+    margin: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Aseguramos que el contenido esté centrado */
+    gap: 8px; /* Espacio extra entre el logo y el texto si están juntos */
+    
+    /* Efecto de estirado sutil para "ensanchar" visualmente (úselo con cuidado) */
+    /* transform: scaleX(1.1); */ 
+}
+
+.subtitle-login {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.login-logo {
+    width: 60px;
+    margin-bottom: 1rem;
+}
+
+/* 2. Aseguramos que los grupos de input ocupen todo el ancho */
+.input-group {
+    width: 100%;
+    margin-bottom: 20px; /* Más separación entre correo y clave */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px; /* Inputs más altos se ven más modernos */
+    box-sizing: border-box; /* Fundamental para que no se salgan del borde */
+}
+
+/* 3. El botón también debe ser imponente */
+.btn-login-vortex {
+    width: 100%;
+    padding: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.action-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Empuja los elementos a los extremos */
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box; /* Evita que el padding ensanche la caja de más */
+}
+
+.action-info {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Separa el badge del texto "¿Ver demo?" */
+}
+
+.action-info p {
+    color: white;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.badge-new {
+    background-color: #ef233c; /* Rojo Vortex */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.btn-vortex-demo {
+    background: #333;
+    color: white;
+    border: 1px solid #444;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    white-space: nowrap; /* Evita que el texto del botón se baje */
+    transition: 0.3s all ease;
+}
+
+.btn-vortex-demo:hover {
+    background: #ef233c;
+    border-color: #ef233c;
+    transform: scale(1.05);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--dark-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background: var(--primary-color);
+}
+
+/* Categorías */
+.categories-section {
+    margin-top: 5rem;
+    text-align: center;
+}
+
+.categories-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.cat-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 150px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.cat-item i {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+
+
+
+/* --- Nueva Sección de Categorías Compacta --- */
+.categories-mini-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee; /* Una línea sutil para separar */
+}
+
+.cat-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.categories-mini-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cat-mini-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px; /* Estilo píldora, más moderno */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.cat-mini-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+.cat-mini-item i {
+    font-style: normal;
+    font-size: 1.1rem;
+}
+
+.cat-mini-item span {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+/* Ajuste extra para que la columna izquierda no baje tanto */
+.hero-title {
+    font-size: 2.5rem; /* Achicamos un pelo el título para ganar espacio */
+    margin-bottom: 1rem;
+}
+
+
+.categories-line {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem; /* Espacio entre ellas */
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+
+.cat-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #666;
+    white-space: nowrap;
+}
+
+
+
+.cat-tag i {
+    font-style: normal;
+    font-size: 1rem;
+}
+
+.cat-tag:hover {
+    color: var(--primary-color);
+}
+
+.url-badge {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #ef233c;
+    margin-top: 30px;
+    margin-bottom: 40px; /* Espacio para que no lo pisen los iconos */
+    display: block;
+    width: fit-content;
+}
+
+/* Contenedor de sectores: Flujo normal, no absoluto */
+.sectors-optimization-area {
+    position: relative; /* Clave para que el z-index funcione */
+    z-index: 20;        /* Mayor que el de la onda */
+    margin-top: 50px;  /* Esto los sube un poquito para que "floten" sobre la onda */
+    padding-bottom: 50px;
+}
+
+.url-badge code {
+    color: #ef233c;
+    font-weight: bold;
+}
+
+.url-badge p {
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+}
+
+
+/* --- Cuadrados en horizontal --- */
+.categories-grid-horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.cat-card {
+    background: white;
+    flex: 1; /* Hace que todos midan lo mismo */
+    padding: 12px 8px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+    min-width: 85px; /* Evita que se deformen mucho */
+}
+
+.cat-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-color);
+    box-shadow: 0 6px 15px rgba(239, 35, 60, 0.1);
+}
+
+.cat-card i {
+    font-style: normal;
+    font-size: 1.4rem; /* El icono destaca más */
+}
+
+.cat-card span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    text-align: center;
+}
+
+.features-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Permite desplazar hacia el lado */
+    padding-bottom: 15px; /* Espacio para que no se corte la sombra al scrollear */
+    scrollbar-width: thin; /* Barra de scroll fina para navegadores modernos */
+}
+
+.glass-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.glass-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 130px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 950px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 20px;
+    }
+    .hero-info { padding-right: 0; }
+    .nav-logo-hero { justify-content: center; }
+    .features-mini-grid { justify-content: center; }
+}
+
+/* --- Arreglo de los Sectores --- */
+.sectors-container {
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 60px 20px;
+    width: 100%;
+    border-top: 1px solid #eee;
+    text-align: center;
+    clear: both; /* Asegura que baje */
+}
+
+/* Título de la sección mejorado */
+.section-subtitle {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+/* La línea roja de Vortex debajo del título */
+.section-subtitle::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background-color: #ef233c;
+    border-radius: 2px;
+}
+
+/* Las tarjetas ahora resaltan más sobre el gris */
+.glass-card {
+    background: #ffffff; /* Blanco puro sobre fondo gris */
+    border: none; /* Quitamos el borde para usar sombras */
+    border-radius: 20px;
+    padding: 30px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    /* Sombra elegante y suave */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03); 
+}
+
+/* Efecto Hover Potenciado */
+.glass-card:hover {
+    transform: translateY(-15px); /* Sube un poco más */
+    box-shadow: 0 20px 40px rgba(239, 35, 60, 0.12); /* Sombra roja sutil */
+}
+
+/* Ajustamos la posición vertical */
+.sectors-floating-bar {
+    position: absolute;
+    bottom: 20px; /* Bajamos el valor (antes estaba en 85px) para que bajen a la onda */
+    left: 5%; 
+    display: flex;
+    gap: 20px;
+    z-index: 10;
+    width: auto;
+    justify-content: flex-start;
+}
+
+/* Items individuales: mantenemos el estilo compacto */
+.floating-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.f-icon {
+    background: white;
+    width: 65px;  /* Tamaño aumentado */
+    height: 65px; /* Tamaño aumentado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.8rem; /* Emoji más grande también */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1); /* Sombra un poco más profunda */
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.f-text {
+    font-size: 0.75rem; /* Un pelín más grande para legibilidad */
+    font-weight: 700;
+    color: #444;
+    margin-top: 10px;
+    text-align: center;
+    display: block;
+}
+
+/* Efecto al pasar el mouse */
+.floating-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Efecto Hover: que crezcan un poquito más al pasar el mouse */
+.floating-item:hover .f-icon {
+    transform: scale(1.1);
+    border-color: #ef233c;
+    box-shadow: 0 8px 20px rgba(239, 35, 60, 0.2);
+}
+
+.floating-item:hover .f-text {
+    color: #ef233c;
+}
+
+/* Contenedor general para controlar el nombre y la barra */
+.sectors-optimization-container {
+    position: absolute;
+    bottom: 15px; /* Ajustado para que descanse sobre la onda */
+    left: 5%;
+    z-index: 10;
+    text-align: left;
+}
+
+.optimization-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 3px solid #ef233c;
+}
+
+/* Contenedor de la barra: aumentamos el gap para dar aire a los círculos más grandes */
+.sectors-floating-bar-wide {
+    display: flex;
+    gap: 45px; /* Más espacio entre ellos */
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0;
+}
+
+
+/* Para que el ojo se posicione respecto a este div */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* El ojo flotando a la derecha */
+.eye-icon {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    color: #888;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+/* Cuando el ojo está activo (contraseña visible), brilla en rojo Vortex */
+.eye-icon.active {
+    color: #ef233c;
+}
+
+.eye-icon:hover {
+    color: #ef233c;
+}
+
+/* Ajuste para que el texto de la contraseña no choque con el ojo */
+.password-container input {
+    padding-right: 45px !important;
+}
+
+.login-form .input-group {
+    width: 100%;
+}
+.login-form .input-group input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Clase para ocultar tarjetas */
+.vortex-hidden {
+    display: none !important;
+}
+
+/* Estilo para el icono de alerta en la recuperación */
+.vortex-icon-alert {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #ef233c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    color: #ef233c;
+    font-weight: bold;
+    font-size: 1.5rem;
+    box-shadow: 0 0 10px rgba(230, 4, 4, 0.2);
+}
+
+/* 1. Estiramos la tarjeta principal */
+.login-card-vortex {
+    width: 100%;
+    max-width: 400px; /* Súbele de 300 o 350 a 400px o 450px */
+    padding: 40px;    /* Más espacio interno para que no se vea apretado */
+    margin: 0 auto;
+}
+
+.login-actions-vortex {
+  display: flex;          /* Habilita Flexbox para alinear horizontalmente */
+  justify-content: center; /* Centra el grupo de enlaces horizontalmente */
+  align-items: center;     /* Centra los elementos verticalmente dentro del grupo */
+  gap: 15px;               /* Añade espacio entre los enlaces y la barra (|) */
+  margin-top: 15px;        /* Separa este bloque del botón ACCEDER */
+}
+
+/* 2. Estilo para la barra divisora (|) */
+.login-actions-vortex .divider {
+  color: #ef233c;         /* Color rojo de Vortex para la barra */
+  font-weight: 300;       /* Opcional: Hace la barra más delgada si se prefiere */
+}
+
+
+.negocios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.negocio-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #fff;
+  text-decoration: none;
+  color: #111;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.negocio-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.negocio-icon {
+  font-size: 28px;
+}
+
+.negocio-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.negocio-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #777;
+}
+
+
+@keyframes fadeInVortex {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+    .sectors-floating-bar {
+        gap: 15px;
+        bottom: 60px;
+    }
+    .f-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+    .f-text { display: none; } /* Ocultar texto en móvil para que no se amontone */
+}

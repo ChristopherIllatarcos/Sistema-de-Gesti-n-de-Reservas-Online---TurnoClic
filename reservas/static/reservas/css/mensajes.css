@@ -1,0 +1,126 @@
+  body {
+        /* Usamos la ruta completa que Django genera */
+        background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('/static/reservas/img/fondo_4.webp') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+      }
+
+.mensajes-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* TOP BAR */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn-back {
+  background: #ef233c;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.btn-back:hover {
+  background: #d90429;
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  flex: 1;
+  background: #1e1e1e;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #2a2a2a;
+}
+
+/* TEXTO SIEMPRE BLANCO */
+.stat-label {
+  display: block;
+  font-size: 13px;
+  color: #ffffff; /*  blanco */
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ffffff; /* 🔥 blanco fuerte */
+}
+
+/* DESTACAR NO LEÍDOS */
+.stat-box.highlight {
+  border-left: 4px solid #ef233c;
+  box-shadow: 0 0 10px rgba(239, 35, 60, 0.2);
+}
+
+.stat-box strong {
+  display: block;
+  font-size: 22px;
+  color: #ef233c;
+}
+
+/* LISTA */
+.mensajes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* CARD */
+.mensaje-card {
+  background: #1e1e1e;
+  padding: 15px;
+  border-radius: 12px;
+  border-left: 4px solid transparent;
+  transition: 0.2s;
+}
+
+.mensaje-card:hover {
+  transform: translateY(-2px);
+}
+
+.no-leido {
+  border-left: 4px solid #ef233c;
+}
+
+.mensaje-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.mensaje-texto {
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.mensaje-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #999;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+  margin-top: 40px;
+}

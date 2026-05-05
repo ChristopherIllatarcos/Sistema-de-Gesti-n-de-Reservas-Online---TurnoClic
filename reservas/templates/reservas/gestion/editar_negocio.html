@@ -1,0 +1,133 @@
+{% extends 'reservas/base_panel.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reservas/css/editar_negocio.css' %}?v=1.1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2><i class="fas fa-store"></i> Configuración de tu negocio</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label><i class="fas fa-tag"></i> Nombre del negocio:</label>
+            <input type="text" name="nombre_negocio" value="{{ perfil.nombre_negocio }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label><i class="fas fa-align-left"></i> Descripción:</label>
+            <textarea name="descripcion" rows="3" placeholder="Describe tu negocio...">{{ perfil.descripcion|default:'' }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label><i class="fas fa-chart-line"></i> Rubro:</label>
+            <select name="rubro">
+                <option value="deporte" {% if perfil.rubro == 'deporte' %}selected{% endif %}>⚽ Deportes / Canchas</option>
+                <option value="belleza" {% if perfil.rubro == 'belleza' %}selected{% endif %}>✂️ Belleza / Barbería</option>
+                <option value="salud" {% if perfil.rubro == 'salud' %}selected{% endif %}>🏥 Salud / Bienestar</option>
+                <option value="educacion" {% if perfil.rubro == 'educacion' %}selected{% endif %}>📚 Educación / Clases</option>
+                <option value="comida" {% if perfil.rubro == 'comida' %}selected{% endif %}>🍽️ Comida / Restaurante</option>
+                <option value="eventos" {% if perfil.rubro == 'eventos' %}selected{% endif %}>🎉 Eventos / Celebraciones</option>
+                <option value="spa" {% if perfil.rubro == 'spa' %}selected{% endif %}>💆 Spa / Relajación</option>
+                <option value="general" {% if perfil.rubro == 'general' %}selected{% endif %}>📦 General / Otros</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label><i class="fas fa-link"></i> URL de tu negocio (slug):</label>
+            <div class="url-preview">
+                <span>https://</span>
+                <input type="text" name="slug" value="{{ perfil.slug }}" required pattern="[a-z0-9-]+">
+                <span>.turnoclic.cl/reservar/</span>
+            </div>
+            <small><i class="fas fa-info-circle"></i> Solo letras minúsculas, números y guiones (ej: mi-barberia)</small>
+        </div>
+        
+        <!-- ============================================ -->
+        <!-- REDES SOCIALES -->
+        <!-- ============================================ -->
+        <div class="form-group">
+            <label><i class="fab fa-instagram"></i> Instagram:</label>
+            <div class="input-icon">
+                <i class="fab fa-instagram"></i>
+                <input type="text" name="instagram" value="{{ perfil.instagram|default:'' }}" placeholder="Ej: turnoclic">
+            </div>
+            <small><i class="fas fa-info-circle"></i> Tu usuario de Instagram (sin el @)</small>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fab fa-whatsapp"></i> WhatsApp:</label>
+            <div class="input-icon">
+                <i class="fab fa-whatsapp"></i>
+                <input type="text" name="whatsapp" value="{{ perfil.whatsapp|default:'' }}" placeholder="Ej: 56912345678">
+            </div>
+            <small><i class="fas fa-info-circle"></i> Número con código país, solo números (ej: 56912345678)</small>
+        </div>
+        <!-- ============================================ -->
+        
+        <!-- ============================================ -->
+        <!-- ENLACE PÚBLICO PARA COMPARTIR CON CLIENTES -->
+        <!-- ============================================ -->
+        <div class="tu-enlace">
+            <label><i class="fas fa-share-alt"></i> Comparte este enlace con tus clientes:</label>
+            <div class="enlace-box">
+                <code id="enlacePublico">https://{{ perfil.slug }}.turnoclic.cl/reservar/</code>
+                <button type="button" onclick="copiarEnlace()" class="btn-copiar">
+                    <i class="fas fa-copy"></i> Copiar
+                </button>
+            </div>
+            <small><i class="fas fa-info-circle"></i> Tus clientes pueden reservar directamente desde este enlace</small>
+        </div>
+        <!-- ============================================ -->
+        
+        <div class="form-group">
+            <label><i class="fas fa-phone"></i> Teléfono de contacto:</label>
+            <input type="text" name="telefono" value="{{ perfil.telefono|default:'' }}" placeholder="+56 9 1234 5678">
+        </div>
+        
+        <div class="form-group">
+            <label><i class="fas fa-map-marker-alt"></i> Dirección:</label>
+            <input type="text" name="direccion" value="{{ perfil.direccion|default:'' }}" placeholder="Calle, número, comuna">
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-guardar">
+                <i class="fas fa-save"></i> Guardar cambios
+            </button>
+            <a href="{% url 'dashboard' %}" class="btn-cancelar">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function copiarEnlace() {
+    const enlace = document.getElementById('enlacePublico').innerText;
+    navigator.clipboard.writeText(enlace).then(() => {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Enlace copiado!',
+            text: 'Ya puedes compartirlo con tus clientes',
+            timer: 2000,
+            showConfirmButton: false,
+            background: '#fff',
+            iconColor: '#28a745'
+        });
+    }).catch(() => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo copiar el enlace',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    });
+}
+</script>
+{% endblock %}

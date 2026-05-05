@@ -1,0 +1,74 @@
+{% extends 'reservas/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="planes-vortex">
+    <div class="container">
+        <h2 class="section-main-title">Escala tu negocio</h2>
+        <p class="section-subtitle">Elige el nivel de potencia que tu empresa necesita hoy.</p>
+
+        <div class="planes-container">
+            
+            <div class="plan-v-card">
+                <div class="plan-v-header">
+                    <h3>Vortex Core</h3>
+                    <p class="plan-desc">Para profesionales independientes.</p>
+                    <div class="plan-price">$5.990<span>/mes</span></div>
+                </div>
+                <div class="plan-v-body">
+                    <ul>
+                        <li><i class="check">✔</i> Hasta 150 reservas/mes</li>
+                        <li><i class="check">✔</i> 1 Usuario Admin</li>
+                        <li><i class="check">✔</i> Notificaciones Email</li>
+                        <li class="locked">✖ URL Personalizada</li>
+                    </ul>
+                </div>
+                <div class="plan-v-footer">
+                    <a href="#" class="btn-v-secundario">Empezar Ahora</a>
+                </div>
+            </div>
+
+            <div class="plan-v-card featured">
+                <div class="v-badge">MÁS ELEGIDO</div>
+                <div class="plan-v-header">
+                    <h3>Vortex Prime</h3>
+                    <p class="plan-desc">El motor completo para tu Pyme.</p>
+                    <div class="plan-price">$8.990<span>/mes</span></div>
+                </div>
+                <div class="plan-v-body">
+                    <ul>
+                        <li><i class="check">✔</i> Reservas Ilimitadas</li>
+                        <li><i class="check">✔</i> 5 Usuarios Admin</li>
+                        <li><i class="check">✔</i> Notificaciones Smart</li>
+                        <li><i class="check">✔</i> URL Personalizada</li>
+                        <li><i class="check">✔</i> Reportes de Gestión</li>
+                    </ul>
+                </div>
+                <div class="plan-v-footer">
+                    <a href="#" class="btn-v-principal">Activar Prime</a>
+                </div>
+            </div>
+
+            <div class="plan-v-card">
+                <div class="plan-v-header">
+                    <h3>Vortex Titan</h3>
+                    <p class="plan-desc">Para empresas de alto flujo.</p>
+                    <div class="plan-price">$12.990<span>/mes</span></div>
+                </div>
+                <div class="plan-v-body">
+                    <ul>
+                        <li><i class="check">✔</i> Multi-sucursal</li>
+                        <li><i class="check">✔</i> Usuarios Ilimitados</li>
+                        <li><i class="check">✔</i> Soporte Prioritario 24/7</li>
+                        <li><i class="check">✔</i> Integración API</li>
+                    </ul>
+                </div>
+                <div class="plan-v-footer">
+                    <a href="#" class="btn-v-secundario">Contactar Ventas</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

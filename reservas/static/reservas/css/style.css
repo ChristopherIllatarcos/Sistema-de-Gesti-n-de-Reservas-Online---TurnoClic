@@ -1,0 +1,545 @@
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Variables de color para facilitar cambios */
+:root {
+    --primary-color: #ef233c; /* Rojo intenso */
+    --dark-color: #1a1a1a;    /* Un gris casi negro, más agresivo y elegante */
+    --light-bg: #edf2f4;      /* Un fondo gris acero muy claro */
+    --text-main: #2b2d42;     /* Azul/Gris oscuro para el texto */
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.main-header {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+
+/* Este es el contenedor gris que cruza toda la pantalla */
+.header-top {
+    width: 100%;
+    /* Aseguramos que ocupe todo el ancho */
+    display: flex;
+    justify-content: center;
+    /* ESTA ES LA CLAVE: Centra horizontalmente todo el contenido */
+    align-items: center;
+    /* Centra verticalmente */
+    padding: 15px 0;
+    /* Ajusta el padding para que respire arriba y abajo */
+    background-color: #e6e6e6;
+    /* El color gris claro de tu header */
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.logo-text {
+    display: inline-flex; /* Cambiar a inline-flex es la clave */
+    align-items: center;
+    font-family: 'Arial Black', sans-serif;
+    font-weight: 950; /* Bien grueso como querías */
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    
+    /* Forzamos espacio cero entre elementos hijos */
+    gap: 0; 
+    letter-spacing: -1.5px; 
+}
+
+.logo-text .highlight {
+    color: #ef233c; /* Tu rojo Vortex */
+    font-weight: 900;
+    position: relative;
+    /* Efecto de brillo sutil en el rojo */
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.05);
+    margin-left: -10px; /* Ajuste fino para que el CLIC se superponga un poco al TURNO */
+}
+
+/* El toque innovador: un subrayado que solo aparece bajo "RESERVA" */
+.logo-text .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 2px;
+    width: 100%;
+    height: 3px;
+    background: #ef233c;
+    border-radius: 10px;
+    opacity: 0.2; /* Muy sutil, para dar profundidad */
+}
+
+.highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 4px;
+    width: 90%;
+    height: 3px;
+    background: #ef233c;
+    border-radius: 10px;
+    opacity: 0.3;
+}
+
+/* Barra de Navegación Compacta */
+.nav-container-bottom {
+    background-color: rgba(26, 26, 26, 0.9) !important; /* Negro con 90% de opacidad */    height: 45px; /* Reducimos la altura total */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra todo el contenido verticalmente */
+    margin: 0 !important;
+}
+
+.highlight {
+    /* El degradado de arriba hacia abajo */
+    background: linear-gradient(180deg, #ff4d5a 0%, #ef233c 100%);
+    
+    /* Propiedades de recorte para que el fondo solo rellene las letras */
+    -webkit-background-clip: text; /* Para Chrome, Safari y Edge */
+    background-clip: text;         /* Propiedad estándar para Firefox y otros */
+    
+    /* El color de relleno debe ser transparente para que se vea el fondo */
+    -webkit-text-fill-color: transparent; 
+    color: transparent; /* Respaldo para navegadores que soporten background-clip estándar */
+
+    position: relative;
+    padding-left: 2px;
+    font-weight: 900;
+    filter: drop-shadow(0 2px 4px rgba(239, 35, 60, 0.2));
+}
+
+/* Animación de la manecilla (Giro suave) */
+.hand-anim {
+    transform-origin: 12px 12px; /* Punto central del reloj */
+    animation: rotateHand 8s linear infinite;
+}
+
+@keyframes rotateHand {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Animación del Cursor (Efecto Clic/Pulso) */
+.cursor-anim {
+    transform-origin: 20px 20px;
+    animation: clickPulse 2s ease-in-out infinite;
+}
+
+@keyframes clickPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+/* Opcional: Que se mueva más rápido cuando pasas el mouse por encima */
+.nav-logo:hover .hand-anim {
+    animation-duration: 2s;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 100%;
+}
+
+.nav-links li {
+    height: 100%;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.85rem; /* Un pelín más pequeña la letra para que se vea pro */
+    padding: 0 18px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a:hover:not(.btn-contact-nav) {
+    background-color: #333;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--primary-color); /* El rojo de Vortex */
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+/* Ajuste específico para el botón del menú */
+.btn-contact-nav {
+    background-color: #ef233c;
+    color: white !important;
+    margin-left: 15px;
+    border-radius: 4px;
+    height: 32px !important; /* Más bajo para que no toque los bordes */
+    padding: 0 15px !important;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
+.btn-contact-nav:hover {
+    background-color: #d90429;
+    transform: translateY(1px); /* Efecto de presión al hacer clic */
+}
+
+.btn-contact-nav::after {
+    display: none; /* Quitamos la línea para el botón */
+}
+
+/* Botón especial de contacto */
+.btn-contact {
+    background-color: var(--primary-color);
+    color: var(--white) !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease !important;
+}
+
+.btn-contact:hover {
+    background-color: #c32f3a !important;
+    transform: translateY(-2px);
+}
+
+/* Contenedor principal */
+.content-wrapper {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.main-footer {
+    background-color: #0b0b0b; /* Negro profundo */
+    padding: 60px 0 30px 0;
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-container {
+    max-width: 1100px; /* Ancho controlado para que no se estire */
+    margin: 0 auto;    /* Centrado automático */
+    display: flex;
+    justify-content: space-between; /* Separa las 3 columnas */
+    padding: 0 20px;
+}
+
+.footer-section {
+    flex: 1;
+    /* Ajustando esto a 300px el texto se corta perfecto en 2 líneas */
+    max-width: 300px; 
+    min-width: 250px;
+}
+
+.footer-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+/* Estilos para el logo en el menú */
+.nav-logo a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre imagen y texto */
+}
+
+.footer-section h4 {
+    color: #ef233c;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+/* El logo VORTEX con su brillo suave */
+.vortex-pulse {
+    color: #ef233c;
+    font-family: 'Arial Black', sans-serif;
+    margin-bottom: 10px;
+    /* Línea 1: El Título */
+}
+
+.footer-section p {
+    /* Forzamos el color gris suave de la referencia */
+    color: #bbbbbb !important; 
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left;
+    max-width: 300px; /* Aquí controlamos las 3 líneas */
+}
+
+/* Por si acaso los enlaces también se pusieron azules */
+.footer-section a {
+    color: #bbbbbb !important;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    color: #ef233c !important; /* Rojo al pasar el mouse */
+}
+
+/* Quitar puntos de la lista de navegación */
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 12px;
+}
+
+.footer-section ul li a {
+    color: #bbbbbb;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ef233c; /* Brillo rojo al pasar el mouse */
+}
+
+/* Línea de copyright inferior */
+.footer-bottom {
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 25px;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* Rediseño del título VORTEX en el footer (más compacto) */
+.footer-section-vortex .vortex-pulse {
+    color: #ef233c; /* ROJO SANGRE VORTEX */
+    font-family: 'Arial Black', sans-serif;
+    font-size: 1.5rem; /* Achicamos el título un poco (estaba en 1.8) */
+    margin-bottom: 12px;
+    text-shadow: 0 0 8px rgba(239, 35, 60, 0.2); /* Brillo sutil */
+    text-align: left; /* Alineación a la izquierda */
+}
+
+/* El párrafo de descripción (Suave y compactado) */
+.footer-section-vortex p {
+    color: #bbbbbb; /* Gris suave, como en la referencia */
+    font-size: 0.95rem; /* Un pelín más chico para que quepa mejor */
+    line-height: 1.5; /* Interlineado más compacto (antes en 1.6) */
+    text-align: left; /* Alineación a la izquierda */
+}
+
+/* BUSCA ESTA REGLA O CREA UNA ESPECÍFICA PARA LA DESCRIPCIÓN */
+.footer-section-vortex {
+    flex: 1; /* Mantenemos que use un tercio del espacio total del footer */
+    padding-right: 25px; /* Espacio de seguridad con la siguiente columna */
+    
+    /* ESTA ES LA CLAVE: Achicamos el ancho de la columna 
+       para forzar a que el texto se rompa en tres líneas */
+    max-width: 320px; 
+    
+    margin-bottom: 30px; /* Separación si se amontonan en móviles */
+}
+
+/* Este es el contenedor que tiene el icono y el texto juntos */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.02); /* Un pequeño salto al pasar el mouse */
+}
+
+/* Estilo para el icono del reloj */
+.logo-image {
+    width: 32px;
+    /* Ajusta el tamaño según necesites */
+    height: auto;
+}
+
+/* --- Ajuste extra para el icono --- */
+.logo-image {
+    width: 45px;
+    height: auto;
+    margin-right: 12px;
+    /* Bajamos el icono un poquito más para centrarlo con las letras grandes */
+    transform: translateY(4px); 
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));
+}
+
+
+.target-sectors {
+    margin: 40px 0 20px 0;
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+/* Línea decorativa roja de Vortex debajo del texto */
+.section-subtitle::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #ef233c; /* Tu rojo Vortex */
+    border-radius: 2px;
+}
+
+.highlight {
+    color: #ef233c;
+    font-weight: 900;
+    position: relative;
+    /* Aplicamos la animación: nombre, duración, suavizado, infinita */
+    animation: vortex-glow 3s ease-in-out infinite;
+}
+
+/* Contenedor de la izquierda (Info) y Derecha (Login) */
+.hero-content-card, .login-card-vortex {
+    background: rgba(255, 255, 255, 0.95); /* Blanco casi sólido */
+    border-radius: 24px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* Esta sombra es clave para que "floten" sobre el nuevo fondo */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06); 
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: #111; /* Negro profundo como el footer */
+    color: #fff;
+    border: 2px solid #ef233c; /* El rojo sangre característico */
+    border-radius: 50%; /* Círculo perfecto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    visibility: hidden; /* Oculto al inicio */
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 1000;
+    box-shadow: 0 0 15px rgba(138, 3, 3, 0.3);
+}
+
+.back-to-top.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: #ef233c;
+    box-shadow: 0 0 20px rgba(138, 3, 3, 0.6);
+    transform: translateY(-5px); /* Pequeño salto al pasar el mouse */
+}
+
+/* Para que no aparezca de golpe */
+.back-to-top {
+    transform: translateY(20px);
+}
+
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+
+.progress-bar {
+    height: 100%;
+    background: #ef233c;
+    box-shadow: 0 0 15px #ff0000;
+    width: 0%; /* Empieza en cero */
+    /* Aquí está la magia: se llena sola en 2 segundos */
+    animation: cargaInicial 2s forwards ease-in-out;
+}
+
+@keyframes cargaInicial {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+@keyframes cargaInicial {
+    0% { width: 0%; opacity: 1; }
+    80% { width: 100%; opacity: 1; }
+    100% { width: 100%; opacity: 0; } /* Se desvanece al final */
+}
+
+@keyframes vortexFlujo {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+
+/* Definimos el movimiento del brillo */
+@keyframes vortex-glow {
+    0%, 100% {
+        text-shadow: 0 0 0px rgba(239, 35, 60, 0);
+        filter: brightness(1);
+    }
+    50% {
+        /* Aquí es donde brilla: crea un aura roja alrededor de las letras */
+        text-shadow: 0 0 15px rgba(239, 35, 60, 0.8), 0 0 25px rgba(239, 35, 60, 0.4);
+        filter: brightness(1.2); /* Aumenta un poco el brillo del color */
+    }
+}
